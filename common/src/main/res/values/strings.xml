@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">common</string>
+    <string name="defualt_text_toolbar">Bus leaving in next 1 hr</string>
+    <string name="default_permission_message">Please provide the permission for better use of the app</string>
+    <string name="location_not_found">We do not operate in this location</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>
