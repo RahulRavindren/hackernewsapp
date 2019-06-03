@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="WhiteThemeCard" parent="CardView.Light">
+        <item name="cardBackgroundColor">@android:color/white</item>
+    </style>
+
+    <style name="BlackThemeCard" parent="CardView.Dark">
+        <item name="cardBackgroundColor">@android:color/black</item>
+    </style>
+
+    <style name="ListingTheme" parent= "" >
+        <item name="android:background">#eceff1</item>
+    </style>
+
+
+</resources>
