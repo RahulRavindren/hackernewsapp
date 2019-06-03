@@ -1,7 +1,7 @@
 package com.hackernewsapplication.android.view.listing.presenter
 
 import com.hackernewsapplication.android.view.listing.repository.NewsListingRepository
-import com.hackernewsapplication.android.view.listing.service.NewsLisitingService
+import com.hackernewsapplication.android.view.listing.service.TopStoriesService
 import com.hackernewsapplication.android.view.listing.view.NewsLisitingFragmentView
 import com.hackernewsapplication.common.basecommons.BasePresenter
 
@@ -13,7 +13,7 @@ class NewsListingPresenter : BasePresenter<NewsLisitingFragmentView>() {
 
     override fun start() {
         super.start()
-        repository = NewsListingRepository(NewsLisitingService())
+        repository = NewsListingRepository(TopStoriesService())
     }
 
     override fun stop() {
