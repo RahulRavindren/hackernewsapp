@@ -1,0 +1,75 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.9"
+}
+
+
+def fileFilter = [ '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*' ]
+
+
+def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+
+def mainsrc = ["app/src/main/java","network/src/main/java","common/src/main/java"]
+
+    task customJacocoTestReport(type: JacocoReport, dependsOn: 'test') {
+
+        reports {
+            html.enabled = true
+        }
+
+        sourceDirectories = files(mainsrc)
+        classDirectories = files(debugTree)
+        executionData = fileTree(dir: project.buildDir, includes: [
+                'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+        ])
+
+    }
+
+    task customJacocoTestCoverageVerificaion(type: JacocoCoverageVerification , dependsOn: 'customJacocoTestReport') {
+
+        sourceDirectories = files(mainsrc)
+        classDirectories = files(debugTree)
+        executionData = fileTree(dir: project.buildDir, includes: [
+                'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+        ])
+
+        violationRules {
+            setFailOnViolation(true)
+
+            rule {
+                element = 'PACKAGE'
+
+                limit {
+                    value = 'COVEREDRATIO'
+                    counter = 'BRANCH'
+                    minimum = 0.0
+                }
+            }
+
+            rule {
+                element = 'PACKAGE'
+
+                limit {
+                    value = 'COVEREDRATIO'
+                    counter = 'INSTRUCTION'
+                    minimum = 0.0
+                }
+            }
+
+            rule {
+                element = 'PACKAGE'
+                includes = ['com.weatherapp.*']
+                enabled = true
+
+                limit {
+                    counter = 'CLASS'
+                    value = 'MISSEDCOUNT'
+                    maximum = 0
+                }
+
+            }
+        }
+
+
+}

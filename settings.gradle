@@ -1,0 +1,6 @@
+include ':app',':network',':common'
+rootProject.name='HackerNewsApplication'
+
+
+project(':common').projectDir = new File('./common')
+project(':network').projectDir = new File('./network')
