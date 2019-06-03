@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">network</string>
+    <string name="no_network_msg">No internet connection</string>
+</resources>

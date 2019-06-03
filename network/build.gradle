@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply from: '../dependencies/dependencies.gradle'
+apply from: "$rootProject.projectDir/dependencies/quality.gradle"
+
+android {
+    compileSdkVersion project.ext.csv
+
+    defaultConfig {
+        minSdkVersion project.ext.msv
+        targetSdkVersion project.ext.csv
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    compileOnly project.ext.network.retrofit
+    compileOnly project.ext.network.retrofit_converter
+    compileOnly project.ext.network.retrofit_rx_adapter
+    compileOnly project.ext.network.log_interceptor
+    compileOnly project.ext.libs.gson
+    compileOnly project.ext.rxjava.rxjava_android
+    compileOnly project.ext.rxjava.rxjava
+    compileOnly project(':common')
+
+    testCompileOnly project.ext.test.junit
+    testCompileOnly project.ext.test.mockito_server
+    testCompileOnly project.ext.test.mockito
+    testImplementation "io.mockk:mockk:1.8.9"
+
+    androidTestCompileOnly project.ext.test.runner
+    androidTestCompileOnly project.ext.test.espresso_core
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
