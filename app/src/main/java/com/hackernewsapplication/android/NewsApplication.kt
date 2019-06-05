@@ -7,7 +7,6 @@ import com.hackernewsapplication.common.utils.ApplicationUrlContainer
 import com.hackernewsapplication.common.utils.Logger
 import com.hackernewsapplication.common.utils.Utils
 import com.hackernewsapplication.network.NetworkSDK
-import io.reactivex.plugins.RxJavaPlugins
 
 /**
  * @Author rahulravindran
@@ -21,7 +20,7 @@ class NewsApplication : Application() {
         NetworkSDK.init(this)
 
         Utils.setStrictModePolicy(true)
-        RxJavaPlugins.setErrorHandler(Utils.undeliveredExceptionHandler())
+        //RxJavaPlugins.setErrorHandler(Utils.undeliveredExceptionHandler())
 
         Logger.init()
 

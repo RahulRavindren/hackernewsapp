@@ -7,7 +7,6 @@ import com.hackernewsapplication.android.R
 import com.hackernewsapplication.android.entity.NewsEntity
 import com.hackernewsapplication.common.basecommons.BaseViewHolder
 import com.hackernewsapplication.common.utils.loadAsync
-import kotlinx.android.synthetic.main.comment_viewholder_item.*
 
 /**
  * @Author rahulravindran
@@ -22,10 +21,10 @@ class CommentItemViewHolder(val view: View) : RecyclerView.ViewHolder(view), Bas
         top_level_comment.text = entity.text
 
         // async build nested comments
-        if (entity.commentsEntity.size > 0) {
+        if (entity.innerEntityList.size > 0) {
             loadAsync(view.context, R.layout.nested_comment_viewholder_item, inner_nested_comment_container) {
                 val nestedCommentView = view.findViewById<TextView>(R.id.inner_comment)
-                nestedCommentView.text = entity.commentsEntity[0].text
+                nestedCommentView.text = entity.innerEntityList[0].text
             }
         }
     }
@@ -35,6 +34,10 @@ class CommentItemViewHolder(val view: View) : RecyclerView.ViewHolder(view), Bas
     }
 
     override fun onDetach() {
+
+    }
+
+    override fun onDestroy() {
 
     }
 }

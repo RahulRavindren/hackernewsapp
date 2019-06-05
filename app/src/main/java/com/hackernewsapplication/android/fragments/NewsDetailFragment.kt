@@ -11,6 +11,7 @@ import com.hackernewsapplication.android.view.detail.presenter.NewsDetailPresent
 import com.hackernewsapplication.android.view.detail.viewholder.CommentItemViewHolder
 import com.hackernewsapplication.common.C
 import com.hackernewsapplication.common.basecommons.BaseViewHolder
+import io.reactivex.Single
 
 /**
  * @Author rahulravindran
@@ -24,17 +25,15 @@ class NewsDetailFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType
         presenter?.start()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setPagination(false)
-        setRefresh(false)
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setPagination(false)
+        setRefresh(false)
         val entity = arguments?.getSerializable(C.NEWS_ENTITY) as? NewsEntity
         entity ?: return
-        presenter?.fetchStory(entity)
+
+
+        Single.just(entity.kids.map { NewsEntity(id = it) }).subscribe(getListingObserver())
     }
 
 
@@ -43,8 +42,8 @@ class NewsDetailFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType
         return CommentItemViewHolder(rootView)
     }
 
-    override fun attachViewHolderData(holder: RecyclerView.ViewHolder, position: Int, data: Any) {
-        if (holder is BaseViewHolder) {
+    override fun attachViewHolderData(holder: RecyclerView.ViewHolder, position: Int, data: Any?) {
+        if (data != null && holder is BaseViewHolder) {
             holder.onBind(data)
         }
     }
