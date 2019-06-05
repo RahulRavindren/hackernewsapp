@@ -1,26 +1,21 @@
 package com.hackernewsapplication.common
 
-import androidx.appcompat.app.AppCompatActivity
-import com.hackernewsapplication.common.utils.PermissionManager
+import android.content.SharedPreferences
 import org.junit.Before
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class PermissionManagerTest {
+class PerferenceManagerTest {
+
     @Mock
-    lateinit var activity: AppCompatActivity
+    lateinit var sharedPreferences: SharedPreferences
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
     }
 
-    @Test(expected = NullPointerException::class)
-    fun `nulladapterTest`() {
-        PermissionManager(null)
-    }
 }
