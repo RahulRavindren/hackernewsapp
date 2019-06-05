@@ -10,4 +10,5 @@ interface BaseViewHolder : LayoutContainer {
     fun onBind(data: Any)
     fun onAttach()
     fun onDetach()
+    fun onDestroy()
 }

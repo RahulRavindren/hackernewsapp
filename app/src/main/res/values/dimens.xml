@@ -3,4 +3,6 @@
     <dimen name="listing_loader_dimen">30dp</dimen>
     <dimen name="dimen_0dp">0dp</dimen>
     <dimen name="inner_comment_container_padding">50dp</dimen>
+    <dimen name="top_news_card_height">100dp</dimen>
+    <dimen name="story_header_size">16dp</dimen>
 </resources>

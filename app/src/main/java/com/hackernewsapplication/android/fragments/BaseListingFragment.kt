@@ -76,12 +76,20 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
     ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(), SingleObserver<List<Any>> {
 
-        private val TAG = ListingAdapter::class.java.simpleName
-        private var dataItems: Array<NewsEntity?>? = null
+        private val TAG = NewsListingFragment::class.java.simpleName
+        private var dataItems: MutableList<Any> = mutableListOf()
+
+        init {
+            setHasStableIds(true)
+        }
 
         override fun onSuccess(t: List<Any>) {
-            dataItems = arrayOfNulls<NewsEntity>(t.size)
+            dataItems = t.toMutableList()
             notifyDataSetChanged()
+        }
+
+        override fun getItemId(position: Int): Long {
+            return (dataItems[position] as NewsEntity).id.toLong()
         }
 
 
@@ -93,20 +101,28 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
             Logger.error(e)
         }
 
+        fun updateItemAtPos(data: Any, position: Int) {
+            Logger.debug(TAG, "updating data at pos $position")
+            dataItems.set(position, data)
+            notifyItemChanged(position)
+        }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return adapterType.getViewHolder(parent, viewType)
         }
+
 
         override fun getItemCount(): Int = dataItems?.size ?: 0
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             holder.itemView.setOnClickListener {
                 recyclerOnClickListener.onItemClick(
-                    position, dataItems?.get(position), bundleOf(
-                        C.NEWS_ENTITY to dataItems?.get(position)
+                    position, dataItems[position], bundleOf(
+                        C.NEWS_ENTITY to dataItems[position]
                     )
                 )
             }
+            holder.setIsRecyclable(false)
             adapterType.attachViewHolderData(holder, position, dataItems?.get(position))
         }
 
@@ -122,6 +138,13 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
             if (holder is BaseViewHolder) {
                 holder.onDetach()
             }
+        }
+
+        override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+            if (holder is BaseViewHolder) {
+                holder.onDestroy()
+            }
+            super.onViewRecycled(holder)
         }
     }
 

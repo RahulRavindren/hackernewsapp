@@ -18,5 +18,15 @@ open class NewsEntity(
     val url: String = "",
     val parent: Int = -1,
     val poll: Long = -1,
-    val commentsEntity: MutableList<NewsEntity> = mutableListOf()
-) : Serializable
+    val innerEntityList: MutableList<NewsEntity> = mutableListOf()
+) : Serializable {
+
+    override fun equals(other: Any?): Boolean {
+        other ?: return false
+        return other == id
+    }
+
+    override fun hashCode(): Int {
+        return id
+    }
+}

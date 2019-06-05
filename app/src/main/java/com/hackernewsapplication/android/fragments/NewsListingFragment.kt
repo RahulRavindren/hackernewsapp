@@ -13,6 +13,10 @@ import com.hackernewsapplication.android.view.listing.presenter.NewsListingPrese
 import com.hackernewsapplication.android.view.listing.view.NewsLisitingFragmentView
 import com.hackernewsapplication.android.view.listing.viewholder.NewsListingItemViewHolder
 import com.hackernewsapplication.common.basecommons.BaseViewHolder
+import com.hackernewsapplication.common.utils.Logger
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * @Author rahulravindran
@@ -20,6 +24,8 @@ import com.hackernewsapplication.common.basecommons.BaseViewHolder
 class NewsListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, NewsLisitingFragmentView,
     NewsItemDataFetchCallback {
     private var presenter: NewsListingPresenter? = null
+    private var compositeDisposable = CompositeDisposable()
+    private val TAG = NewsListingFragment::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,20 +48,29 @@ class NewsListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterTyp
 
     override fun getViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val rootView = LayoutInflater.from(context).inflate(R.layout.top_news_viewholder_item, viewGroup, false)
-        return NewsListingItemViewHolder(rootView)
+        return NewsListingItemViewHolder(rootView, this)
     }
 
-    override fun attachViewHolderData(holder: RecyclerView.ViewHolder, position: Int, data: Any) {
-        if (holder is BaseViewHolder) {
+    override fun attachViewHolderData(holder: RecyclerView.ViewHolder, position: Int, data: Any?) {
+        if (data != null && holder is BaseViewHolder) {
             holder.onBind(data)
         }
     }
 
-    override fun onItemClick(position: Int, data: Any, bundle: Bundle?) {
+    override fun onItemClick(position: Int, data: Any?, bundle: Bundle?) {
+        if ((data as? NewsEntity)?.kids.isNullOrEmpty()) return
         (activity as? NewsHomeActivity)?.getNavigation()?.navigate(R.id.news_detail_fragment, bundle)
     }
 
-    override fun onfetchNewsForId(id: Int, viewHolder: RecyclerView.ViewHolder, viewHolderPos: Int) {
-
+    override fun onfetchNewsForId(storyId: Int, viewHolder: RecyclerView.ViewHolder, viewHolderPos: Int) {
+        Logger.debug(TAG, "storyId : $storyId , viewholder Pos : $viewHolderPos")
+        compositeDisposable.add(presenter?.fetchStory(storyId)?.observeOn(AndroidSchedulers.mainThread())
+            ?.onErrorResumeNext { Single.never() }?.subscribe { entity, error ->
+                adapter()?.updateItemAtPos(
+                    entity,
+                    viewHolderPos
+                )
+            }!!
+        )
     }
 }

@@ -3,4 +3,6 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="strip_color_item">#ff8a50</color>
+    <color name="top_news_card_bg">#cfd8dc</color>
 </resources>

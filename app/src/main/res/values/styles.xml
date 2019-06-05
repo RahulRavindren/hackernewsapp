@@ -23,5 +23,10 @@
         <item name="android:background">#eceff1</item>
     </style>
 
+    <style name="StoryHeaderTextTheme" parent="TextAppearance.AppCompat.Display2">
+        <item name="android:textSize">@dimen/story_header_size</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
 
 </resources>

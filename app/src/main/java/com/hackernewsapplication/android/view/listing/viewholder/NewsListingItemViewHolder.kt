@@ -5,21 +5,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hackernewsapplication.android.entity.NewsEntity
 import com.hackernewsapplication.android.interfaces.NewsItemDataFetchCallback
 import com.hackernewsapplication.common.basecommons.BaseViewHolder
-import kotlinx.android.synthetic.main.top_news_viewholder_item.*
 
 /**
  * @Author rahulravindran
  */
 class NewsListingItemViewHolder(val view: View, val callback: NewsItemDataFetchCallback) :
     RecyclerView.ViewHolder(view), BaseViewHolder {
-
+    var entity: NewsEntity? = null
     override val containerView: View?
         get() = view
 
     override fun onBind(data: Any) {
-        val entity = data as NewsEntity
+        if ((data as NewsEntity).id != itemId.toInt()) return
 
-        top_news_header.text = entity.title
+        entity = data
+        if (entity?.title?.isEmpty() == true && entity?.type?.isEmpty() == true) {
+            callback.onfetchNewsForId(entity?.id ?: -1, this, adapterPosition)
+        } else {
+            top_news_header.text = entity?.title
+        }
     }
 
     override fun onAttach() {
@@ -28,5 +32,9 @@ class NewsListingItemViewHolder(val view: View, val callback: NewsItemDataFetchC
 
     override fun onDetach() {
 
+    }
+
+    override fun onDestroy() {
+        entity = null
     }
 }
