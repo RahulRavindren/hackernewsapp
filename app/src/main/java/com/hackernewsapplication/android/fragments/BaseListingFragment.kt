@@ -1,21 +1,25 @@
 package com.hackernewsapplication.android.fragments
 
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hackernewsapplication.android.R
+import com.hackernewsapplication.android.entity.NewsEntity
 import com.hackernewsapplication.android.interfaces.RecyclerOnClickListener
+import com.hackernewsapplication.common.C
 import com.hackernewsapplication.common.basecommons.BaseFragment
+import com.hackernewsapplication.common.basecommons.BaseViewHolder
 import com.hackernewsapplication.common.utils.Logger
+import com.hackernewsapplication.common.utils.bundleOf
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.base_fragment_listing.*
 
 open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
+    protected var isStateRestored: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,45 +38,52 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
 
     open fun getAdapterType(): ListingAdapterType = this as ListingAdapterType
 
+    private fun initRefreshListener() {
+        refresh_list.setOnRefreshListener { getAdapterType().onRefresh() }
+    }
 
     private fun initList() {
         base_listing.let {
             it.layoutManager = LinearLayoutManager(it.context, LinearLayoutManager.VERTICAL, false)
             it.adapter = ListingAdapter(this, getAdapterType())
         }
+
     }
 
     fun setPagination(state: Boolean) {
         base_listing.setPagination(state)
     }
 
-
-    fun <T> getListingObserver(): SingleObserver<*>? = base_listing.adapter as SingleObserver<*>
-
-
-    fun showProgress() {
-        list_progress.visibility = View.VISIBLE
-        base_listing.visibility = View.GONE
+    fun setRefresh(state: Boolean = true) {
+        refresh_list.isEnabled = state
+        if (state) {
+            initRefreshListener()
+        }
     }
 
-    fun hideProgess() {
-        list_progress.visibility = View.GONE
-        base_listing.visibility = View.VISIBLE
+    fun setRefreshState(state: Boolean) {
+        refresh_list.isRefreshing = state
     }
 
-    fun adapter(): ListingAdapter = base_listing.adapter as ListingAdapter
+    fun <T> getListingObserver(): SingleObserver<T> = base_listing.adapter as SingleObserver<T>
 
-    class ListingAdapter(val fragment: BaseListingFragment<*>, val adapterType: ListingAdapterType) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>(), SingleObserver<SparseArray<Any>> {
+
+    fun adapter(): ListingAdapter? = base_listing.adapter as? ListingAdapter
+
+    class ListingAdapter(
+        val recyclerOnClickListener: RecyclerOnClickListener,
+        val adapterType: ListingAdapterType
+    ) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>(), SingleObserver<List<Any>> {
 
         private val TAG = ListingAdapter::class.java.simpleName
-        private var dataItems = SparseArray<Any>()
+        private var dataItems: Array<NewsEntity?>? = null
 
-        override fun onSuccess(t: SparseArray<Any>) {
-            dataItems = t
+        override fun onSuccess(t: List<Any>) {
+            dataItems = arrayOfNulls<NewsEntity>(t.size)
             notifyDataSetChanged()
-            fragment.hideProgess()
         }
+
 
         override fun onSubscribe(d: Disposable) {
 
@@ -86,16 +97,49 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
             return adapterType.getViewHolder(parent, viewType)
         }
 
-        override fun getItemCount(): Int = dataItems.size()
+        override fun getItemCount(): Int = dataItems?.size ?: 0
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            adapterType.attachViewHolderData(holder, position, dataItems[position])
+            holder.itemView.setOnClickListener {
+                recyclerOnClickListener.onItemClick(
+                    position, dataItems?.get(position), bundleOf(
+                        C.NEWS_ENTITY to dataItems?.get(position)
+                    )
+                )
+            }
+            adapterType.attachViewHolderData(holder, position, dataItems?.get(position))
+        }
+
+        override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+            super.onViewAttachedToWindow(holder)
+            if (holder is BaseViewHolder) {
+                holder.onAttach()
+            }
+        }
+
+        override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+            super.onViewDetachedFromWindow(holder)
+            if (holder is BaseViewHolder) {
+                holder.onDetach()
+            }
         }
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        base_listing.layoutManager?.onRestoreInstanceState(savedInstanceState?.getParcelable(C.RECYCLERVIEW_STATE))
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        val recyclerviewState = base_listing.layoutManager?.onSaveInstanceState()
+        outState.putParcelable(C.RECYCLERVIEW_STATE, recyclerviewState)
+        super.onSaveInstanceState(outState)
+
+    }
 }
 
 interface ListingAdapterType {
     fun getViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder
-    fun attachViewHolderData(holder: RecyclerView.ViewHolder, position: Int, data: Any)
+    fun attachViewHolderData(holder: RecyclerView.ViewHolder, position: Int, data: Any?)
+    fun onRefresh() {}
 }

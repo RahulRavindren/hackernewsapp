@@ -24,9 +24,8 @@
             tools:layout="@layout/base_fragment_listing">
 
         <argument
-                android:name="parentItemId"
-                app:argType="integer"
-                android:defaultValue="-1"/>
+                android:name="news_entity"
+                app:argType="com.hackernewsapplication.android.entity.NewsEntity"/>
 
     </fragment>
 </navigation>

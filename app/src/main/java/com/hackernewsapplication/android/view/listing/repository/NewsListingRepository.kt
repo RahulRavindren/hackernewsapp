@@ -14,8 +14,8 @@ class NewsListingRepository(fetcher: Fetcher<List<NewsEntity>, RepoIndentifier>)
     BaseRepository(fetcher = fetcher as Fetcher<List<NewsEntity>, BaseIdentifier>) {
 
 
-    fun fetchTopStories(): Single<List<NewsEntity>> {
-        return fetch(RepoIndentifier.TOP_STORIES_ALL)
+    fun fetchTopStories(fromCache: Boolean = false): Single<List<NewsEntity>> {
+        return if (fromCache) fetchWithCache(RepoIndentifier.TOP_STORIES_ALL) else fetch(RepoIndentifier.TOP_STORIES_ALL)
     }
 
 }

@@ -5,16 +5,18 @@ import java.io.Serializable
 /**
  * @Author rahulravindran
  */
-class NewsEntity(
-    val by: String,
-    val descendants: Int,
-    val id: Int,
-    val kids: Set<Int>,
-    val score: Int,
-    val time: Long,
-    val title: String,
-    val type: String,
-    val url: String,
-    val parent: Int,
-    val poll: Long
+open class NewsEntity(
+    val by: String = "",
+    val descendants: Int = 0,
+    val id: Int = -1,
+    val kids: List<Int> = emptyList(),
+    val score: Int = -1,
+    val time: Long = -1,
+    val title: String = "",
+    val text: String = "",
+    val type: String = "",
+    val url: String = "",
+    val parent: Int = -1,
+    val poll: Long = -1,
+    val commentsEntity: MutableList<NewsEntity> = mutableListOf()
 ) : Serializable
