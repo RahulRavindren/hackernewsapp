@@ -1,12 +1,18 @@
 package com.hackernewsapplication.common.utils
 
 import android.app.Activity
+import android.content.Context
 import android.os.Binder
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Size
 import android.util.SizeF
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -98,3 +104,18 @@ fun Activity.runOnUIThread(runnable: () -> Unit) = runOnUiThread(runnable)
 fun Int.toPx(): Int = (this * Utils.application?.resources?.displayMetrics?.density!!).toInt()
 
 fun Int.toDp(): Int = (this / Utils.application?.resources?.displayMetrics?.density!!).toInt()
+
+fun LayoutInflater.inflate(layoutId: Int, viewGroup: ViewGroup? = null, parent: Boolean = false): View {
+    return inflate(layoutId, viewGroup, parent)
+}
+
+
+fun loadAsync(context: Context, @LayoutRes res: Int, parent: ViewGroup, action: View.() -> Unit) {
+    AsyncLayoutInflater(context).inflate(res, parent) { view, _, parent ->
+        with(parent) {
+            this?.addView(view)
+            action(view)
+        }
+
+    }
+}

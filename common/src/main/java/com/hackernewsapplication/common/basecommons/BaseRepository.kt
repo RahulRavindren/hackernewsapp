@@ -7,7 +7,6 @@ import com.nytimes.android.external.store3.base.impl.*
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import java.util.concurrent.TimeUnit
 
 /**
  * @Author rahulravindran
@@ -30,14 +29,12 @@ open class BaseRepository(val fetcher: Fetcher<*, BaseIdentifier>) : BaseResposi
     fun initStore() {
         store = FluentStoreBuilder.key(fetcher) {
             stalePolicy = StalePolicy.REFRESH_ON_STALE
-            memoryPolicy = default()
         }
     }
 
     fun default(): MemoryPolicy {
         return FluentMemoryPolicyBuilder.build() {
             memorySize = STORE_SIZE * 1L
-            expireAfterTimeUnit = TimeUnit.SECONDS
         }
     }
 

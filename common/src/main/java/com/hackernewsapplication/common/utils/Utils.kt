@@ -1,13 +1,8 @@
 package com.hackernewsapplication.common.utils
 
 import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.os.StrictMode
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import com.google.gson.Gson
 import com.hackernewsapplication.common.C
 import io.reactivex.exceptions.OnErrorNotImplementedException
@@ -157,21 +152,3 @@ class Utils {
 
 
 }
-
-
-fun Utils.inflate(layoutId: Int, viewGroup: ViewGroup? = null, parent: Boolean = false): View {
-    return LayoutInflater.from(Utils.application).inflate(layoutId, viewGroup, parent)
-}
-
-
-fun Utils.inflateAsync(
-    context: Context, layoutId: Int,
-    parent: ViewGroup? = null, onfinishAction: (View, Int, ViewGroup?) -> Unit
-) {
-    AsyncLayoutInflater(context).inflate(layoutId, parent, object : AsyncLayoutInflater.OnInflateFinishedListener {
-        override fun onInflateFinished(view: View, resid: Int, parent: ViewGroup?) {
-            onfinishAction(view, resid, parent)
-        }
-    })
-}
-
