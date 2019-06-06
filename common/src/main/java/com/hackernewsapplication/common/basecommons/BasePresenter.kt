@@ -4,6 +4,7 @@ import com.hackernewsapplication.common.interfaces.BaseView
 import com.hackernewsapplication.common.utils.Logger
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import org.jetbrains.annotations.TestOnly
 
 /**
  * @Author rahulravindran
@@ -17,6 +18,9 @@ open class BasePresenter<T : BaseView> {
     protected fun getView(): T? {
         return this.view
     }
+
+    @TestOnly
+    fun getViewForTest(): T? = this.view
 
     open fun attachView(view: T?) {
         if (view == null) {

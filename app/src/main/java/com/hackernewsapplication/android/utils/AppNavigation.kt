@@ -9,10 +9,10 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.hackernewsapplication.android.R
 
-class AppNavigation(supportFragmentManager: FragmentManager, container: FrameLayout) {
+class AppNavigation(private val supportFragmentManager: FragmentManager, private val container: FrameLayout) {
 
     private val hostFragment: NavHostFragment = NavHostFragment.create(R.navigation.news_nav_graph)
-    private val navController: NavController
+    private var navController: NavController? = null
 
     private val destinationChangeListener =
         NavController.OnDestinationChangedListener { _, _, _ -> }
@@ -21,28 +21,31 @@ class AppNavigation(supportFragmentManager: FragmentManager, container: FrameLay
 
 
     fun navigate(@IdRes navId: Int) {
-        navController.navigate(navId)
+        navController?.navigate(navId)
     }
 
     fun navigate(@IdRes navId: Int, bundle: Bundle?) {
-        navController.navigate(navId, bundle)
+        navController?.navigate(navId, bundle)
     }
 
-    init {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(container.id, hostFragment)
-            .setPrimaryNavigationFragment(hostFragment)
-            .commitNow()
-        navController = hostFragment.navController
-        navController.addOnDestinationChangedListener(destinationChangeListener)
+    fun init(bundle: Bundle?) {
+        if (bundle == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(container.id, hostFragment)
+                .setPrimaryNavigationFragment(hostFragment)
+                .commitNow()
+            navController = hostFragment.navController
+            navController?.addOnDestinationChangedListener(destinationChangeListener)
+        } else {
+            navController?.restoreState(bundle)
+        }
     }
-
 
     fun restoreState(bundle: Bundle?) {
-        navController.restoreState(bundle)
+        navController?.restoreState(bundle)
     }
 
-    fun storeState(): Bundle? = navController.saveState()
+    fun storeState(): Bundle? = navController?.saveState()
 
 }
