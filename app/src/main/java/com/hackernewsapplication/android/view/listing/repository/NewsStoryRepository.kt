@@ -10,6 +10,7 @@ import io.reactivex.Single
 
 class NewsStoryRepository(fetcher: Fetcher<NewsEntity, RepoIndentifier>) :
     BaseRepository(fetcher = fetcher as Fetcher<NewsEntity, BaseIdentifier>) {
+    private val TAG = NewsStoryRepository::class.java.simpleName
 
     fun fetchCommentsAndReplies(storyId: Int): Single<NewsEntity> {
         return fetch<NewsEntity>(RepoIndentifier(C.NEWS_ENTITY, storyId))

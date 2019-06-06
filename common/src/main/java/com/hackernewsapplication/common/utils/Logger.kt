@@ -54,6 +54,11 @@ class Logger {
         public fun error(t: Throwable?) {
             Timber.asTree().e(t)
         }
+
+        public fun error(tag: String?, t: Throwable) {
+            Timber.asTree().e(tag, t.message)
+            t.printStackTrace()
+        }
     }
 
 

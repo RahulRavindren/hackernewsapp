@@ -19,7 +19,7 @@ class NewsHomeActivity : BaseActivity() {
 
         if (appNavigation == null) {
             appNavigation = AppNavigation(supportFragmentManager, nav_host)
-            appNavigation?.restoreState(savedInstanceState?.getBundle(C.NAV_STATE))
+            appNavigation?.init(savedInstanceState?.getBundle(C.NAV_STATE))
         }
     }
 

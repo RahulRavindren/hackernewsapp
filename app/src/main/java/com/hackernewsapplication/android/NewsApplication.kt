@@ -12,6 +12,7 @@ import com.hackernewsapplication.network.NetworkSDK
  * @Author rahulravindran
  */
 class NewsApplication : Application() {
+    private val TAG = NewsApplication::class.java.simpleName
 
     override fun onCreate() {
         super.onCreate()
@@ -42,10 +43,12 @@ class NewsApplication : Application() {
     }
 
     override fun onTerminate() {
+        Logger.info(TAG, "termination of application")
         super.onTerminate()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
+        Logger.info(TAG, "config changed ")
         super.onConfigurationChanged(newConfig)
 
     }

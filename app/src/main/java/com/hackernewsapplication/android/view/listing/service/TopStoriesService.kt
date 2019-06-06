@@ -11,10 +11,18 @@ import io.reactivex.Single
  */
 
 class TopStoriesService : Fetcher<List<NewsEntity>, RepoIndentifier> {
+    var service: NewsFetchService? = null
 
-    val service: NewsFetchService by lazy { RetrofitAdapter.Factory().getRestService(NewsFetchService::class.java) }
+    constructor() {
+        service = lazy { RetrofitAdapter.Factory().getRestService(NewsFetchService::class.java) }.value
+    }
+
+    constructor(service: NewsFetchService) {
+        this.service = service
+    }
+
 
     override fun fetch(key: RepoIndentifier): Single<List<NewsEntity>> {
-        return service.fetchTopNews().map { it.map { NewsEntity(id = it) } }
+        return service?.fetchTopNews()?.map { it.map { NewsEntity(id = it) } } ?: Single.never()
     }
 }

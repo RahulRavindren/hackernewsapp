@@ -12,6 +12,7 @@ import com.hackernewsapplication.android.view.detail.presenter.NewsDetailPresent
 import com.hackernewsapplication.android.view.detail.viewholder.CommentItemViewHolder
 import com.hackernewsapplication.common.C
 import com.hackernewsapplication.common.basecommons.BaseViewHolder
+import com.hackernewsapplication.common.utils.SchedulerProvider
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -25,7 +26,7 @@ class DetailFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, It
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = NewsDetailPresenter()
+        presenter = NewsDetailPresenter(SchedulerProvider())
         presenter?.start()
     }
 

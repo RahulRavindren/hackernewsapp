@@ -7,8 +7,15 @@ import com.nytimes.android.external.store3.base.Fetcher
 import io.reactivex.Single
 
 class NewsStoryService : Fetcher<NewsEntity, RepoIndentifier> {
+    var service: NewsFetchService? = null
 
-    val service: NewsFetchService by lazy { RetrofitAdapter.Factory().getRestService(NewsFetchService::class.java) }
+    constructor() {
+        service = lazy { RetrofitAdapter.Factory().getRestService(NewsFetchService::class.java) }.value
+    }
 
-    override fun fetch(key: RepoIndentifier): Single<NewsEntity> = service.fetchItem(key.id)
+    constructor(service: NewsFetchService) {
+        this.service = service
+    }
+
+    override fun fetch(key: RepoIndentifier): Single<NewsEntity> = service?.fetchItem(key.id) ?: Single.never()
 }
