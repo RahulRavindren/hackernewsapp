@@ -76,7 +76,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
     ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(), SingleObserver<List<Any>> {
 
-        private val TAG = NewsListingFragment::class.java.simpleName
+        private val TAG = ListingFragment::class.java.simpleName
         private var dataItems: MutableList<Any> = mutableListOf()
 
         init {
@@ -122,7 +122,6 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
                     )
                 )
             }
-            holder.setIsRecyclable(false)
             adapterType.attachViewHolderData(holder, position, dataItems?.get(position))
         }
 
@@ -150,11 +149,11 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        base_listing.layoutManager?.onRestoreInstanceState(savedInstanceState?.getParcelable(C.RECYCLERVIEW_STATE))
+        base_listing?.layoutManager?.onRestoreInstanceState(savedInstanceState?.getParcelable(C.RECYCLERVIEW_STATE))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val recyclerviewState = base_listing.layoutManager?.onSaveInstanceState()
+        val recyclerviewState = base_listing?.layoutManager?.onSaveInstanceState()
         outState.putParcelable(C.RECYCLERVIEW_STATE, recyclerviewState)
         super.onSaveInstanceState(outState)
 

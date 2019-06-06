@@ -6,7 +6,7 @@
             app:startDestination="@+id/news_fragment">
     <fragment
             android:id="@+id/news_fragment"
-            android:name="com.hackernewsapplication.android.fragments.NewsListingFragment"
+            android:name="com.hackernewsapplication.android.fragments.ListingFragment"
             android:label="News Listing Fragment"
             tools:layout="@layout/base_fragment_listing">
 
@@ -19,7 +19,7 @@
 
     <fragment
             android:id="@+id/news_detail_fragment"
-            android:name="com.hackernewsapplication.android.fragments.NewsDetailFragment"
+            android:name="com.hackernewsapplication.android.fragments.DetailFragment"
             android:label="News Comment Listing Fragment"
             tools:layout="@layout/base_fragment_listing">
 

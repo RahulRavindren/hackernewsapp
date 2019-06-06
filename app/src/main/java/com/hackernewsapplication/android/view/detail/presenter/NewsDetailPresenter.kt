@@ -15,6 +15,6 @@ class NewsDetailPresenter : BasePresenter<NewsDetailView>() {
         repository = NewsStoryRepository(NewsStoryService())
     }
 
-    private fun fetchStory(entity: NewsEntity): Single<NewsEntity> =
-        repository?.fetchCommentsAndReplies(entity.id) ?: Single.never<NewsEntity>()
+    fun fetchComment(commentId: Int): Single<NewsEntity> =
+        repository?.fetchCommentsAndReplies(commentId) ?: Single.never<NewsEntity>()
 }

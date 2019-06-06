@@ -43,8 +43,6 @@ class AppNavigation(supportFragmentManager: FragmentManager, container: FrameLay
         navController.restoreState(bundle)
     }
 
-    fun storeState() {
-        navController.saveState()
-    }
+    fun storeState(): Bundle? = navController.saveState()
 
 }
