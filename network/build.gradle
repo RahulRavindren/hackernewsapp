@@ -38,6 +38,8 @@ dependencies {
     testCompileOnly project.ext.test.junit
     testCompileOnly project.ext.test.mockito_server
     testCompileOnly project.ext.test.mockito
+    testCompileOnly project.ext.test.runner
+    testCompileOnly project.ext.test.espresso_core
     testImplementation "io.mockk:mockk:1.8.9"
 
     androidTestCompileOnly project.ext.test.runner

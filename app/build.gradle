@@ -64,6 +64,7 @@ dependencies {
     testImplementation project.ext.test.roboelectric
     androidTestImplementation project.ext.test.runner
     androidTestImplementation project.ext.test.espresso_core
+    androidTestImplementation project.ext.test.mockito
     testImplementation project.ext.test.runner
     testImplementation project.ext.test.rules
     testImplementation project.ext.test.espresso_core
