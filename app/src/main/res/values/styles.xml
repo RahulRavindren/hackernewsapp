@@ -26,6 +26,7 @@
     <style name="StoryHeaderTextTheme" parent="TextAppearance.AppCompat.Display2">
         <item name="android:textSize">@dimen/story_header_size</item>
         <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 

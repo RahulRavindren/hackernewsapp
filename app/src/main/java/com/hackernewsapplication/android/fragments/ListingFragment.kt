@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hackernewsapplication.android.NewsHomeActivity
 import com.hackernewsapplication.android.R
 import com.hackernewsapplication.android.entity.NewsEntity
-import com.hackernewsapplication.android.interfaces.NewsItemDataFetchCallback
+import com.hackernewsapplication.android.interfaces.ItemDataFetchCallback
 import com.hackernewsapplication.android.view.listing.presenter.NewsListingPresenter
 import com.hackernewsapplication.android.view.listing.view.NewsLisitingFragmentView
 import com.hackernewsapplication.android.view.listing.viewholder.NewsListingItemViewHolder
@@ -21,11 +21,11 @@ import io.reactivex.disposables.CompositeDisposable
 /**
  * @Author rahulravindran
  */
-class NewsListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, NewsLisitingFragmentView,
-    NewsItemDataFetchCallback {
+class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, NewsLisitingFragmentView,
+    ItemDataFetchCallback {
     private var presenter: NewsListingPresenter? = null
     private var compositeDisposable = CompositeDisposable()
-    private val TAG = NewsListingFragment::class.java.simpleName
+    private val TAG = ListingFragment::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

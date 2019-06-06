@@ -5,6 +5,6 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * @Author rahulravindran
  */
-interface NewsItemDataFetchCallback {
+interface ItemDataFetchCallback {
     fun onfetchNewsForId(id: Int, viewHolder: RecyclerView.ViewHolder, viewHolderPos: Int)
 }

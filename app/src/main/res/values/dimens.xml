@@ -5,4 +5,5 @@
     <dimen name="inner_comment_container_padding">50dp</dimen>
     <dimen name="top_news_card_height">100dp</dimen>
     <dimen name="story_header_size">16dp</dimen>
+    <dimen name="inner_comment_padding_left">10dp</dimen>
 </resources>
