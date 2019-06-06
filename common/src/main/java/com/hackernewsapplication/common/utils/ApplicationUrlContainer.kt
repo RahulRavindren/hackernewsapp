@@ -1,6 +1,7 @@
 package com.hackernewsapplication.common.utils
 
 import com.hackernewsapplication.common.entity.BaseUrl
+import org.jetbrains.annotations.TestOnly
 
 /**
  * @Author rahulravindran
@@ -12,10 +13,7 @@ class ApplicationUrlContainer private constructor() {
         get
 
     private object HOLDER {
-        val INSTANCE by lazy {
-            init(null)
-            ApplicationUrlContainer()
-        }
+        val INSTANCE by lazy { ApplicationUrlContainer() }
     }
 
     fun setPort(port: Int) {
@@ -36,10 +34,18 @@ class ApplicationUrlContainer private constructor() {
     companion object {
         private var baseUrl: BaseUrl? = null
 
+        @JvmStatic
         fun getInstance(): ApplicationUrlContainer {
             return HOLDER.INSTANCE
         }
 
+        @TestOnly
+        @JvmStatic
+        fun init(baseUrl: BaseUrl) {
+            this.baseUrl = baseUrl
+        }
+
+        @JvmStatic
         fun init(builder: Builder?) {
             baseUrl =
                 BaseUrlBuilder.getStoredBaseUrl(Utils.application)
@@ -49,7 +55,7 @@ class ApplicationUrlContainer private constructor() {
             }
         }
 
-
+        @JvmStatic
         fun overrideUrl(builder: Builder?) {
             BaseUrlBuilder.overrideStoredBaseUrl(
                 Utils.application,

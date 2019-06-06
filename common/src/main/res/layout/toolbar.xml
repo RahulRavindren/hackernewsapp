@@ -9,6 +9,6 @@
             android:layout_height="?actionBarSize"
             android:orientation="vertical"
             android:visibility="gone"
-            app:title="Carousel News"
-            app:titleTextColor="@android:color/white"/>
+            app:title="Top Stories"
+            app:titleTextColor="@android:color/black"/>
 </merge>

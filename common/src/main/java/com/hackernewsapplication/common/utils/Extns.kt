@@ -6,6 +6,8 @@ import android.os.Binder
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Html
+import android.text.Spanned
 import android.util.Size
 import android.util.SizeF
 import android.view.LayoutInflater
@@ -115,7 +117,11 @@ fun loadAsync(context: Context, @LayoutRes res: Int, parent: ViewGroup, action: 
         with(parent) {
             this?.addView(view)
             action(view)
+            this?.invalidate()
         }
 
     }
 }
+
+fun String.toHtml(): Spanned = Html.fromHtml(this)
+

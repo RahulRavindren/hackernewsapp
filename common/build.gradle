@@ -7,87 +7,85 @@ apply from: "$rootProject.projectDir/dependencies/quality.gradle"
 
 
 android {
-  compileSdkVersion project.ext.csv
+    compileSdkVersion project.ext.csv
 
 
+    defaultConfig {
+        minSdkVersion project.ext.msv
+        targetSdkVersion project.ext.csv
+        versionCode 1
+        versionName "1.0"
 
-  defaultConfig {
-    minSdkVersion project.ext.msv
-    targetSdkVersion project.ext.csv
-    versionCode 1
-    versionName "1.0"
-
-      testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
 
-  }
-
-  compileOptions {
-    targetCompatibility JavaVersion.VERSION_1_8
-    sourceCompatibility JavaVersion.VERSION_1_8
-  }
-
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-  }
 
-  androidExtensions {
-    experimental = true
-  }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    androidExtensions {
+        experimental = true
+    }
 
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-  api project.ext.androidx.appcompat
-  api project.ext.androidx.core_ktx
-  api project.ext.androidx.constraintlayout
-  api project.ext.androidx.design
-  api project.ext.libs.timber
-  api project.ext.androidx.recyclerview
-  api project.ext.libs.gson
-  api project.ext.rxjava.rxjava_android
-  api project.ext.rxjava.rxjava
-  api project.ext.libs.playservice_location
-  api project.ext.libs.dagger
-  api project.ext.libs.dagger_android
-  api project.ext.libs.dagger_android_support
-  api project.ext.androidx.fragment
-  implementation project.ext.libs.glide
-  implementation project.ext.libs.joda_time
-  api project.ext.network.retrofit
-  api project.ext.network.retrofit_converter
-  api project.ext.network.retrofit_rx_adapter
-  api project.ext.network.log_interceptor
-  implementation project.ext.libs.gson
-  implementation project.ext.rxjava.rxjava_android
-  implementation project.ext.rxjava.rxjava
-  api project.ext.libs.store_core
-  api project.ext.libs.store_middleware
-  api project.ext.libs.store_core_kotlin
+    api project.ext.androidx.appcompat
+    api project.ext.androidx.core_ktx
+    api project.ext.androidx.constraintlayout
+    api project.ext.androidx.design
+    api project.ext.libs.timber
+    api project.ext.androidx.recyclerview
+    api project.ext.libs.gson
+    api project.ext.rxjava.rxjava_android
+    api project.ext.rxjava.rxjava
+    api project.ext.libs.playservice_location
+    api project.ext.libs.dagger
+    api project.ext.libs.dagger_android
+    api project.ext.libs.dagger_android_support
+    api project.ext.androidx.fragment
+    implementation project.ext.libs.glide
+    implementation project.ext.libs.joda_time
+    api project.ext.network.retrofit
+    api project.ext.network.retrofit_converter
+    api project.ext.network.retrofit_rx_adapter
+    api project.ext.network.log_interceptor
+    implementation project.ext.libs.gson
+    implementation project.ext.rxjava.rxjava_android
+    implementation project.ext.rxjava.rxjava
+    api project.ext.libs.store_core
+    api project.ext.libs.store_middleware
+    api project.ext.libs.store_core_kotlin
 
 
+    kapt project.ext.libs.glide_compiler
 
-  kapt project.ext.libs.glide_compiler
+    implementation(project.ext.libs.glide_recylerview) {
+        transitive = false
+    }
 
-  implementation(project.ext.libs.glide_recylerview) {
-    transitive = false
-  }
+    kapt project.ext.libs.dagger_android_processor
+    kapt project.ext.libs.dagger_compiler
 
-  kapt project.ext.libs.dagger_android_processor
-  kapt project.ext.libs.dagger_compiler
-
-  testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
-  testImplementation project.ext.test.junit
-  testImplementation project.ext.test.mockito
-  testImplementation project.ext.test.roboelectric
-  androidTestImplementation project.ext.test.runner
-  androidTestImplementation project.ext.test.espresso_core
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
+    testImplementation project.ext.test.junit
+    testImplementation project.ext.test.mockito
+    testImplementation project.ext.test.roboelectric
+    androidTestImplementation project.ext.test.runner
+    androidTestImplementation project.ext.test.espresso_core
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
 }

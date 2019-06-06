@@ -13,7 +13,7 @@ object BaseUrlBuilder {
     fun getStoredBaseUrl(context: Context?): BaseUrl? {
         val sharePref = getNetworkSharedPref(context)
         val baseUrlString = sharePref?.getString(NETWORK_BASE_URL, "")
-        if (baseUrlString?.isEmpty()!!) {
+        if (baseUrlString.isNullOrEmpty()) {
             return null
         } else {
             return Gson().fromJson(baseUrlString, BaseUrl::class.java)
