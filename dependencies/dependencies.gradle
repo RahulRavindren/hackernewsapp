@@ -1,6 +1,6 @@
 ext{
     csv = 28
-    msv = 21
+    msv = 16
     msv_debug = 21
 
     androidx = [
