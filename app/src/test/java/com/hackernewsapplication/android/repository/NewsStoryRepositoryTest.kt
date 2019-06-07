@@ -1,4 +1,4 @@
-package com.hackernewsapplication.repository
+package com.hackernewsapplication.android.repository
 
 import android.content.Context
 import com.hackernewsapplication.android.view.listing.repository.NewsStoryRepository

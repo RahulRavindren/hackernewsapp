@@ -26,7 +26,7 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
     ItemDataFetchCallback {
     private var presenter: NewsListingPresenter? = null
     private var compositeDisposable = CompositeDisposable()
-    private val TAG = ListingFragment::class.java.simpleName
+    private val tagName = ListingFragment::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +73,7 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
     }
 
     override fun onfetchNewsForId(storyId: Int, viewHolder: RecyclerView.ViewHolder, viewHolderPos: Int) {
-        Logger.debug(TAG, "storyId : $storyId , viewholder Pos : $viewHolderPos")
+        Logger.debug(tagName, "storyId : $storyId , viewholder Pos : $viewHolderPos")
         compositeDisposable.add(presenter?.fetchStory(storyId)?.observeOn(AndroidSchedulers.mainThread())
             ?.onErrorResumeNext { Single.never() }?.subscribe { entity, error ->
                 adapter()?.updateItemAtPos(

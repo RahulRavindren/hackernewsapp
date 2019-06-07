@@ -84,7 +84,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
     ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(), SingleObserver<List<Any>> {
 
-        private val TAG = ListingFragment::class.java.simpleName
+        private val tagName = ListingFragment::class.java.simpleName
         private var dataItems: MutableList<Any> = mutableListOf()
 
         init {
@@ -113,7 +113,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
         }
 
         fun updateItemAtPos(data: Any, position: Int) {
-            Logger.debug(TAG, "updating data at pos $position")
+            Logger.debug(tagName, "updating data at pos $position")
             dataItems[position] = data
             notifyItemChanged(position)
         }

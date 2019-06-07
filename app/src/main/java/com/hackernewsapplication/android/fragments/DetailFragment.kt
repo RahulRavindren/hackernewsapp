@@ -54,12 +54,17 @@ class DetailFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, It
 
     override fun onfetchNewsForId(id: Int, viewHolder: RecyclerView.ViewHolder, viewHolderPos: Int) {
         presenter?.fetchComment(id)?.observeOn(AndroidSchedulers.mainThread())?.subscribe { result, error ->
-            (viewHolder as BaseViewHolder).onBind(result)
-            if (result.kids.size > 1) {
-                presenter?.fetchComment(result.kids[0])?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe { innerResult, _ -> (viewHolder as CommentItemViewHolder).inflateNestedComments(result) }
+            if (result != null) {
+                (viewHolder as BaseViewHolder).onBind(result)
+                if (result.kids.size > 1) {
+                    presenter?.fetchComment(result.kids[0])?.observeOn(AndroidSchedulers.mainThread())
+                        ?.subscribe { innerResult, _ ->
+                            (viewHolder as CommentItemViewHolder).inflateNestedComments(
+                                result
+                            )
+                        }
+                }
             }
-
         }?.let { compositeDisposable.add(it) }
     }
 }

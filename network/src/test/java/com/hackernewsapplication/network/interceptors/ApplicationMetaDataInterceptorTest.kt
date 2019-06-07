@@ -29,8 +29,7 @@ class ApplicationMetaDataInterceptorTest : BaseInterceptorTest() {
     @Test
     fun `test application meta interceptor`() {
         setupMockServer()
-        service = RetrofitAdapter
-            .Factory().getRestService(
+        service = RetrofitAdapter.Factory().getRestService(
                 TestService::class.java, server.url("/"),
                 listOf(ApplicationMetaDataInterceptor())
             )

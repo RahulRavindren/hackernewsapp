@@ -5,5 +5,4 @@ import com.hackernewsapplication.common.interfaces.BaseView
 /**
  * @Author rahulravindran
  */
-interface NewsLisitingFragmentView : BaseView {
-}
+interface NewsLisitingFragmentView : BaseView

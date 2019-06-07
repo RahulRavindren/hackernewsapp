@@ -13,8 +13,10 @@ import android.util.SizeF
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -130,5 +132,13 @@ inline fun <T, reified R> List<T>.mapToTypedArray(transform: (T) -> R): Array<R>
     return when (this) {
         is RandomAccess -> Array(size) { index -> transform(this[index]) }
         else -> with(iterator()) { Array(size) { transform(next()) } }
+    }
+}
+
+fun View.showUserFeedback(message: String) {
+    if (Build.VERSION.SDK_INT > 21) {
+        Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
+    } else {
+        Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show()
     }
 }

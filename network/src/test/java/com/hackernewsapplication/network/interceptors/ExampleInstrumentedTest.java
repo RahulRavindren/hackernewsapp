@@ -1,4 +1,4 @@
-package com.hackernewsapplication.network;
+package com.hackernewsapplication.network.interceptors;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;

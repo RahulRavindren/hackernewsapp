@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply from: "$rootProject.projectDir/dependencies/dependencies.gradle"
 apply from: "$rootProject.projectDir/dependencies/quality.gradle"
+apply from: "$rootProject.projectDir/dependencies/detekt.gradle"
+
 
 
 android {
@@ -91,6 +93,7 @@ dependencies {
     testImplementation project.ext.test.roboelectric
     androidTestImplementation project.ext.test.runner
     androidTestImplementation project.ext.test.espresso_core
+    androidTestImplementation project.ext.test.roboelectric
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 

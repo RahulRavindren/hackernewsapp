@@ -9,6 +9,9 @@ import com.hackernewsapplication.common.entity.LifeCycleEvent
 import com.hackernewsapplication.common.interfaces.BaseView
 import com.hackernewsapplication.common.interfaces.LifeCycleOwner
 import com.hackernewsapplication.common.interfaces.LifecycleStreams
+import com.hackernewsapplication.common.utils.Utils
+import com.hackernewsapplication.common.utils.showUserFeedback
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.base_activity_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
 import surveyapp.com.common.R
@@ -16,10 +19,15 @@ import surveyapp.com.common.R
 /**
  * @Author rahulravindran
  */
-open class BaseActivity : AppCompatActivity(), BaseView,
-    LifeCycleOwner<LifeCycleEvent> {
+open class BaseActivity : AppCompatActivity(), BaseView, LifeCycleOwner<LifeCycleEvent>, Consumer<Utils.Event> {
     private lateinit var lifecycleStream: LifecyleStreams
 
+    override fun accept(t: Utils.Event?) {
+        val message = t?.message
+        if (message.equals(Utils.getString(R.string.no_network_msg))) {
+            window.decorView.showUserFeedback(message ?: "")
+        }
+    }
 
     override fun lifecycle(): LifecycleStreams<LifeCycleEvent> {
         return lifecycleStream
@@ -45,9 +53,11 @@ open class BaseActivity : AppCompatActivity(), BaseView,
         lifecycleStream.accept(LifeCycleEvent.STOP)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleStream = LifecyleStreams()
+        Utils.eventSubject.subscribe(this)
         super.setContentView(R.layout.base_activity_layout)
     }
 

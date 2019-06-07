@@ -1,10 +1,10 @@
-package com.hackernewsapplication.network.interceptors
+package com.hackernewsapplication.network
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import com.hackernewsapplication.common.utils.AppConfigBuilder
-import com.hackernewsapplication.network.RetrofitAdapter
+import com.hackernewsapplication.network.utils.NetworkUtils
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,25 +14,38 @@ import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowConnectivityManager
 import org.robolectric.shadows.ShadowNetworkInfo
 
+/**
+ * @Author rahulravindran
+ */
 @RunWith(RobolectricTestRunner::class)
-class NetworkConnectivityInterceptorTest : BaseInterceptorTest() {
-    lateinit var service: ApplicationMetaDataInterceptorTest.TestService
+class NetworkUtilsTest {
+
     lateinit var shadowCM: ShadowConnectivityManager
 
     @Before
     fun setUp() {
-        init()
-        AppConfigBuilder.Builder()
-            .setApplicationCode(1)
-            .setApplicationID("com.hackernewsapplication.android")
-            .setApplicationEnv("dev")
-            .setApplicationVersion("1.0").build()
-
+        NetworkSDK.init(RuntimeEnvironment.systemContext)
         shadowCM = Shadows.shadowOf(getConnectivityManager())
+        val shadowactiveNetwork = Shadows.shadowOf(getConnectivityManager().activeNetworkInfo)
+    }
+
+
+    @Test
+    fun `is network connected test`() {
+        val networkInfo = ShadowNetworkInfo.newInstance(
+            NetworkInfo.DetailedState.CONNECTED,
+            ConnectivityManager.TYPE_WIFI,
+            0,
+            true,
+            true
+        )
+        shadowCM.setActiveNetworkInfo(networkInfo)
+        val activeInfo = getConnectivityManager().activeNetworkInfo
+        Assert.assertTrue(NetworkUtils.isNetworkConnected())
     }
 
     @Test
-    fun `network connectivity set to false`() {
+    fun `is network disconnected test`() {
         val networkInfo = ShadowNetworkInfo.newInstance(
             NetworkInfo.DetailedState.CONNECTED,
             ConnectivityManager.TYPE_WIFI,
@@ -41,18 +54,10 @@ class NetworkConnectivityInterceptorTest : BaseInterceptorTest() {
             false
         )
         shadowCM.setActiveNetworkInfo(networkInfo)
-
-        setupMockServer()
-        service = RetrofitAdapter.Factory().getRestService(
-                ApplicationMetaDataInterceptorTest.TestService::class.java, server.url("/"),
-                listOf(ApplicationMetaDataInterceptor())
-            )
-        //executing dummy request
-        service.makeRequest()
-
+        val activeInfo = getConnectivityManager().activeNetworkInfo
+        Assert.assertFalse(NetworkUtils.isNetworkConnected())
     }
 
     fun getConnectivityManager(): ConnectivityManager =
         RuntimeEnvironment.application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
 }

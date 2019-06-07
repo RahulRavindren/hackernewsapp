@@ -1,4 +1,4 @@
-package com.hackernewsapplication.presenter
+package com.hackernewsapplication.android.presenter
 
 import android.content.Context
 import com.hackernewsapplication.android.view.detail.presenter.NewsDetailPresenter
