@@ -53,7 +53,7 @@ ext{
         "espresso_core" : "androidx.test.espresso:espresso-core:3.1.1",
         "mockito": "org.mockito:mockito-core:2.6.3",
         "mockito_server": "com.squareup.okhttp3:mockwebserver:3.12.1",
-        "roboelectric":  "androidx.test:core:1.0.0",
+        "roboelectric":  "org.robolectric:robolectric:4.3",
         "power_mock_core": "org.powermock:powermock-core:2.0.0",
         "power_mock_api_mockito": "org.powermock:powermock-api-mockito2:2.0.0",
         "power_mock_rule": "org.powermock:powermock-module-junit4-rule:2.0.0",
