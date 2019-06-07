@@ -2,6 +2,7 @@ package com.hackernewsapplication.network.interceptors
 
 import com.hackernewsapplication.common.utils.Utils
 import com.hackernewsapplication.network.NetworkSDK
+import com.hackernewsapplication.network.exceptions.NetworkConnectivityException
 import com.hackernewsapplication.network.utils.NetworkUtils
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -21,6 +22,7 @@ class NetworkConnectivityInterceptor : BaseInterceptor() {
                     Throwable(NetworkSDK.mContext?.getString(R.string.no_network_msg))
                 )
             )
+            throw NetworkConnectivityException()
         }
         return response(chain)
     }

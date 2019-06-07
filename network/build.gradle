@@ -33,7 +33,7 @@ dependencies {
     compileOnly project.ext.libs.gson
     compileOnly project.ext.rxjava.rxjava_android
     compileOnly project.ext.rxjava.rxjava
-    compileOnly project(':common')
+    implementation project(':common')
 
     testCompileOnly project.ext.test.junit
     testCompileOnly project.ext.test.mockito_server
@@ -41,8 +41,10 @@ dependencies {
     testCompileOnly project.ext.test.runner
     testCompileOnly project.ext.test.espresso_core
     testImplementation "io.mockk:mockk:1.8.9"
+    testImplementation project.ext.test.roboelectric
 
     androidTestCompileOnly project.ext.test.runner
     androidTestCompileOnly project.ext.test.espresso_core
+
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

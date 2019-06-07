@@ -7,6 +7,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 
 @RunWith(MockitoJUnitRunner::class)
@@ -43,7 +45,7 @@ class ApplicationMetaDataInterceptorTest : BaseInterceptorTest() {
     }
 
     interface TestService {
-        @GET
-        fun makeRequest()
+        @GET("/")
+        fun makeRequest(): Call<Response<Any>>
     }
 }

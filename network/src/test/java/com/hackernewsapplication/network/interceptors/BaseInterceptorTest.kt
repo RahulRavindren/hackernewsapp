@@ -21,7 +21,7 @@ open class BaseInterceptorTest {
     }
 
     fun setupMockServer() {
-        val server = MockWebServer()
+        server = MockWebServer()
         server.start()
         server.enqueue(MockResponse())
 
