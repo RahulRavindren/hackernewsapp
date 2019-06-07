@@ -12,6 +12,7 @@ import com.hackernewsapplication.android.interfaces.ItemDataFetchCallback
 import com.hackernewsapplication.android.view.listing.presenter.NewsListingPresenter
 import com.hackernewsapplication.android.view.listing.view.NewsLisitingFragmentView
 import com.hackernewsapplication.android.view.listing.viewholder.NewsListingItemViewHolder
+import com.hackernewsapplication.common.C
 import com.hackernewsapplication.common.basecommons.BaseViewHolder
 import com.hackernewsapplication.common.utils.Logger
 import io.reactivex.Single
@@ -36,13 +37,22 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setPagination(false)
-        setRefresh(true)
-        presenter?.start()
-        presenter?.subscribe(getListingObserver(), true)
+
+        val savedData = savedInstanceState?.getParcelableArray(C.NEWS_ENTITY_LIST)
+        if (!savedData.isNullOrEmpty()) {
+            Single.just(savedData.toList()).subscribe(getListingObserver())
+        } else {
+            setPagination(false)
+            setRefresh(true)
+            showRefresh(true)
+            presenter?.start()
+            presenter?.subscribe(getListingObserver(), true)
+        }
+
     }
 
     override fun onRefresh() {
+        showRefresh(true)
         presenter?.subscribe(getListingObserver(), false)
     }
 

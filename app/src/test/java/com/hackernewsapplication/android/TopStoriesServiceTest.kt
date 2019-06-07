@@ -38,7 +38,7 @@ class TopStoriesServiceTest {
         AppConfigBuilder.getInstance(
             AppConfigBuilder.Builder().apply {
                 applicationVersion = ""
-                applicationId = ""
+                applicationId = "com.sample.android"
                 applicationCode = 0
                 env = ""
             }

@@ -9,13 +9,11 @@ import com.hackernewsapplication.common.utils.TestSchedulerProvider
 import com.hackernewsapplication.network.NetworkSDK
 import com.hackernewsapplication.network.RetrofitAdapter
 import io.reactivex.schedulers.TestScheduler
-import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -51,10 +49,6 @@ class NewsDetailPresenterTest {
 
     @Test
     fun `test if error view interface called`() {
-        server.enqueue(MockResponse().setResponseCode(500))
-        val testObserver = presenter.fetchComment(1024).test()
-        testObserver.awaitTerminalEvent()
-        Mockito.verify(view).showErrorPage(true)
     }
 
 }

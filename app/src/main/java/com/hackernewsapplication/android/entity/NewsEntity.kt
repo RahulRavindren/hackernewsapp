@@ -1,10 +1,12 @@
 package com.hackernewsapplication.android.entity
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 /**
  * @Author rahulravindran
  */
+@Parcelize
 open class NewsEntity(
     val by: String = "",
     val descendants: Int = 0,
@@ -19,7 +21,7 @@ open class NewsEntity(
     val parent: Int = -1,
     val poll: Long = -1,
     val innerEntityList: MutableList<NewsEntity> = mutableListOf()
-) : Serializable {
+) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
         other ?: return false

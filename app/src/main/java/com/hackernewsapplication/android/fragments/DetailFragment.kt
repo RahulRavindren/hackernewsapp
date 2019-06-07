@@ -34,7 +34,7 @@ class DetailFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, It
         super.onViewCreated(view, savedInstanceState)
         setPagination(false)
         setRefresh(false)
-        val entity = arguments?.getSerializable(C.NEWS_ENTITY) as? NewsEntity
+        val entity = arguments?.getParcelable(C.NEWS_ENTITY) as? NewsEntity
         entity ?: return
 
         Single.just(entity.kids.map { NewsEntity(id = it) }).subscribe(getListingObserver())

@@ -14,6 +14,7 @@ import com.hackernewsapplication.common.basecommons.BaseFragment
 import com.hackernewsapplication.common.basecommons.BaseViewHolder
 import com.hackernewsapplication.common.utils.Logger
 import com.hackernewsapplication.common.utils.bundleOf
+import com.hackernewsapplication.common.utils.mapToTypedArray
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.base_fragment_listing.*
@@ -23,6 +24,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        retainInstance = true
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,7 +47,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
     private fun initList() {
         base_listing.let {
             it.layoutManager = LinearLayoutManager(it.context, LinearLayoutManager.VERTICAL, false)
-            it.adapter = ListingAdapter(this, getAdapterType())
+            it.adapter = ListingAdapter(this, this, getAdapterType())
         }
 
     }
@@ -61,18 +63,24 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
         }
     }
 
+    fun showRefresh(state: Boolean) {
+        refresh_list.isRefreshing = state
+    }
+
+
     fun setRefreshState(state: Boolean) {
         refresh_list.isRefreshing = state
     }
 
-    fun <T> getListingObserver(): SingleObserver<T> = base_listing.adapter as SingleObserver<T>
+    fun <T> getListingObserver(): SingleObserver<T> = base_listing?.adapter as SingleObserver<T>
 
 
-    fun adapter(): ListingAdapter? = base_listing.adapter as? ListingAdapter
+    fun adapter(): ListingAdapter? = base_listing?.adapter as? ListingAdapter
 
     class ListingAdapter(
-        val recyclerOnClickListener: RecyclerOnClickListener,
-        val adapterType: ListingAdapterType
+        private val ref: BaseListingFragment<*>,
+        private val recyclerOnClickListener: RecyclerOnClickListener,
+        private val adapterType: ListingAdapterType
     ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(), SingleObserver<List<Any>> {
 
@@ -84,6 +92,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
         }
 
         override fun onSuccess(t: List<Any>) {
+            ref.showRefresh(false)
             dataItems = t.toMutableList()
             notifyDataSetChanged()
         }
@@ -91,6 +100,8 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
         override fun getItemId(position: Int): Long {
             return (dataItems[position] as NewsEntity).id.toLong()
         }
+
+        fun getDataItems(): List<Any> = dataItems
 
 
         override fun onSubscribe(d: Disposable) {
@@ -103,7 +114,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
 
         fun updateItemAtPos(data: Any, position: Int) {
             Logger.debug(TAG, "updating data at pos $position")
-            dataItems.set(position, data)
+            dataItems[position] = data
             notifyItemChanged(position)
         }
 
@@ -155,6 +166,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
     override fun onSaveInstanceState(outState: Bundle) {
         val recyclerviewState = base_listing?.layoutManager?.onSaveInstanceState()
         outState.putParcelable(C.RECYCLERVIEW_STATE, recyclerviewState)
+        outState.putParcelableArray(C.NEWS_ENTITY_LIST, adapter()?.getDataItems()?.mapToTypedArray { it as NewsEntity })
         super.onSaveInstanceState(outState)
 
     }
