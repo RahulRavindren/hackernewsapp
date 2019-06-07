@@ -17,6 +17,7 @@ class C {
         val APPLICATION_VERSION_NAME = "APPLICATION_VERSION_NAME"
         val COMMENTS_ENTITY = "comments_entity"
         val NEWS_ENTITY = "news_entity"
+        val NEWS_ENTITY_LIST = "news_entity_list"
         val RECYCLERVIEW_STATE = "recyclerview_state"
     }
 }

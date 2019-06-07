@@ -18,8 +18,14 @@ class AppConfigBuilder {
 
     private constructor(builder: Builder) {
         this.env = builder.env
+        if (builder.applicationId.isNullOrEmpty()) {
+            throw  NullPointerException("application Id is null")
+        }
         this.applicationId = builder.applicationId
         this.applicationVersion = builder.applicationVersion
+        if (builder.applicationCode == -1) {
+            throw IllegalArgumentException("application code cannot be -1")
+        }
         this.applicationCode = builder.applicationCode
     }
 
