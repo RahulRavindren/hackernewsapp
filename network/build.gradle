@@ -34,28 +34,24 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':common')
+    api project.ext.network.retrofit
+    api project.ext.network.retrofit_converter
+    api project.ext.network.retrofit_rx_adapter
+    api project.ext.network.log_interceptor
 
-    compileOnly project.ext.network.retrofit
-    compileOnly project.ext.network.retrofit_converter
-    compileOnly project.ext.network.retrofit_rx_adapter
-    compileOnly project.ext.network.log_interceptor
-    compileOnly project.ext.libs.gson
-    compileOnly project.ext.rxjava.rxjava_android
-    compileOnly project.ext.rxjava.rxjava
-    implementation project(':common')
-
-    testCompileOnly project.ext.test.junit
-    testCompileOnly project.ext.test.mockito_server
-    testCompileOnly project.ext.test.mockito
-    testCompileOnly project.ext.test.runner
-    testCompileOnly project.ext.test.espresso_core
+    testImplementation project.ext.test.junit
+    testImplementation project.ext.test.mockito_server
+    testImplementation project.ext.test.mockito
+    testImplementation project.ext.test.runner
+    testImplementation project.ext.test.espresso_core
     testImplementation "io.mockk:mockk:1.8.9"
     testImplementation project.ext.test.roboelectric
+    testImplementation "com.google.auto.service:auto-service:1.0-rc4"
 
-    androidTestCompileOnly project.ext.test.runner
-    androidTestCompileOnly project.ext.test.espresso_core
+    androidTestImplementation project.ext.test.runner
+    androidTestImplementation project.ext.test.espresso_core
     androidTestImplementation project.ext.test.roboelectric
-
-
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    androidTestImplementation "com.google.auto.service:auto-service:1.0-rc4"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

@@ -21,6 +21,7 @@ class ApplicationMetaDataInterceptorTest : BaseInterceptorTest() {
         AppConfigBuilder.getInstance(
             AppConfigBuilder.Builder()
                 .setApplicationCode(1)
+                .setApplicationEnv("dev")
                 .setApplicationID("com.hackernewsapplication.android")
                 .setApplicationVersion("1.0")
         )
@@ -30,13 +31,12 @@ class ApplicationMetaDataInterceptorTest : BaseInterceptorTest() {
     fun `test application meta interceptor`() {
         setupMockServer()
         service = RetrofitAdapter.Factory().getRestService(
-                TestService::class.java, server.url("/"),
+            TestService::class.java, server.url("/test/"),
                 listOf(ApplicationMetaDataInterceptor())
             )
 
         //executing dummy request
-        service.makeRequest()
-
+        service.makeRequest().execute()
         val recordedRequest = server.takeRequest()
         Assert.assertEquals("1", recordedRequest.getHeader("APPLICATION_VERISON_CODE"))
         Assert.assertEquals("1.0", recordedRequest.getHeader("APPLICATION_VERSION_NAME"))

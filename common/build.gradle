@@ -66,13 +66,6 @@ dependencies {
     api project.ext.androidx.fragment
     implementation project.ext.libs.glide
     implementation project.ext.libs.joda_time
-    api project.ext.network.retrofit
-    api project.ext.network.retrofit_converter
-    api project.ext.network.retrofit_rx_adapter
-    api project.ext.network.log_interceptor
-    implementation project.ext.libs.gson
-    implementation project.ext.rxjava.rxjava_android
-    implementation project.ext.rxjava.rxjava
     api project.ext.libs.store_core
     api project.ext.libs.store_middleware
     api project.ext.libs.store_core_kotlin

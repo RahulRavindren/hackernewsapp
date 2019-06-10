@@ -20,7 +20,7 @@ open class BaseInterceptorTest {
     fun setupMockServer() {
         server = MockWebServer()
         server.start()
-        server.enqueue(MockResponse())
+        server.enqueue(MockResponse().setBody("{}"))
 
     }
 }

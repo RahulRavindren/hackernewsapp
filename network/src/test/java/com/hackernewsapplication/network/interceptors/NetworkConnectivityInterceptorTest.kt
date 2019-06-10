@@ -44,9 +44,8 @@ class NetworkConnectivityInterceptorTest : BaseInterceptorTest() {
 
         setupMockServer()
         service = RetrofitAdapter.Factory().getRestService(
-                ApplicationMetaDataInterceptorTest.TestService::class.java, server.url("/"),
-                listOf(ApplicationMetaDataInterceptor())
-            )
+            ApplicationMetaDataInterceptorTest.TestService::class.java, server.url("/"), listOf()
+        )
         //executing dummy request
         service.makeRequest()
 
