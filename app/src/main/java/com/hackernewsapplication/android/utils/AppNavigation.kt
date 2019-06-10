@@ -6,6 +6,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import com.hackernewsapplication.android.R
 
@@ -13,9 +14,12 @@ class AppNavigation(private val supportFragmentManager: FragmentManager, private
 
     private val hostFragment: NavHostFragment = NavHostFragment.create(R.navigation.news_nav_graph)
     private var navController: NavController? = null
+    private var listener: NavigationChangeListener? = null
 
     private val destinationChangeListener =
-        NavController.OnDestinationChangedListener { _, _, _ -> }
+        NavController.OnDestinationChangedListener { controller, destination, arguments ->
+            listener?.onChangeDestination(controller, destination, arguments)
+        }
 
     fun getCurrentVisibleFragment(): Fragment? = hostFragment.childFragmentManager.primaryNavigationFragment
 
@@ -47,5 +51,19 @@ class AppNavigation(private val supportFragmentManager: FragmentManager, private
     }
 
     fun storeState(): Bundle? = navController?.saveState()
+
+
+    fun navController(): NavController? = navController
+
+    fun setNavigationChangeListener(listener: NavigationChangeListener) {
+
+    }
+
+    interface NavigationChangeListener {
+        fun onChangeDestination(
+            controller: NavController,
+            destination: NavDestination, arguments: Bundle?
+        )
+    }
 
 }

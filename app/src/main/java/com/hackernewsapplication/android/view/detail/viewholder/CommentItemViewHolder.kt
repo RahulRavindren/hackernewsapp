@@ -15,8 +15,10 @@ import kotlinx.android.synthetic.main.comment_viewholder_item.*
 /**
  * @Author rahulravindran
  */
-class CommentItemViewHolder(val view: View, val callback: ItemDataFetchCallback) : RecyclerView.ViewHolder(view),
-    BaseViewHolder {
+class CommentItemViewHolder(
+    private val view: View,
+    private val callback: ItemDataFetchCallback
+) : RecyclerView.ViewHolder(view), BaseViewHolder {
     private var entity: NewsEntity? = null
     var nestedCommentView: TextView? = null
     override val containerView: View?

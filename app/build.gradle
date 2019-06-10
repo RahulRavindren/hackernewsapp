@@ -49,6 +49,15 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    signingConfigs {
+        release  {
+            storeFile file("sample.jks")
+            storePassword "sample123"
+            keyAlias "store123"
+            keyPassword "store123"
+        }
+    }
 }
 
 dependencies {
