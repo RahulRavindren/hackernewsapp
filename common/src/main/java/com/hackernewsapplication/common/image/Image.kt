@@ -10,8 +10,8 @@ import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool
 import com.bumptech.glide.load.engine.cache.LruResourceCache
 import com.bumptech.glide.module.AppGlideModule
+import com.hackernewsapplication.common.R
 import com.hackernewsapplication.common.utils.Utils
-import surveyapp.com.common.R
 
 
 class Image {
@@ -77,10 +77,7 @@ class Image {
                 ImageParams().apply {
                     width = view.width
                     height = view.height
-                    placeholder = Utils.application?.getDrawable(
-                        R.drawable
-                            .default_image_placeholder
-                    )
+                    placeholder = Utils.application?.getDrawable(R.drawable.default_image_placeholder)
                 },
                 url
             )

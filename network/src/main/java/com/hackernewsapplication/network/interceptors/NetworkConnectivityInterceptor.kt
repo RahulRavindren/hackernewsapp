@@ -2,10 +2,10 @@ package com.hackernewsapplication.network.interceptors
 
 import com.hackernewsapplication.common.utils.Utils
 import com.hackernewsapplication.network.NetworkSDK
+import com.hackernewsapplication.network.R
 import com.hackernewsapplication.network.utils.NetworkUtils
 import okhttp3.Interceptor
 import okhttp3.Response
-import surveyapp.com.network.R
 
 /**
  * @Author rahulravindran
