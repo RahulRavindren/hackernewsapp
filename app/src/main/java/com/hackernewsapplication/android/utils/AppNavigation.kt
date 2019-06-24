@@ -25,11 +25,11 @@ class AppNavigation(private val supportFragmentManager: FragmentManager, private
 
 
     fun navigate(@IdRes navId: Int) {
-        navController?.navigate(navId)
+        hostFragment.navController.navigate(navId)
     }
 
     fun navigate(@IdRes navId: Int, bundle: Bundle?) {
-        navController?.navigate(navId, bundle)
+        hostFragment.navController.navigate(navId, bundle)
     }
 
     fun init(bundle: Bundle?) {
@@ -39,10 +39,9 @@ class AppNavigation(private val supportFragmentManager: FragmentManager, private
                 .replace(container.id, hostFragment)
                 .setPrimaryNavigationFragment(hostFragment)
                 .commitNow()
-            navController = hostFragment.navController
-            navController?.addOnDestinationChangedListener(destinationChangeListener)
+            hostFragment.navController.addOnDestinationChangedListener(destinationChangeListener)
         } else {
-            navController?.restoreState(bundle)
+            hostFragment.navController.restoreState(bundle)
         }
     }
 
@@ -50,7 +49,7 @@ class AppNavigation(private val supportFragmentManager: FragmentManager, private
         navController?.restoreState(bundle)
     }
 
-    fun storeState(): Bundle? = navController?.saveState()
+    fun storeState(): Bundle? = hostFragment.navController.saveState()
 
 
     fun navController(): NavController? = navController
