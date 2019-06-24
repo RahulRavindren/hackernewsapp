@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.hackernewsapplication.common.R
 import com.hackernewsapplication.common.entity.LifeCycleEvent
 import com.hackernewsapplication.common.interfaces.BaseView
 import com.hackernewsapplication.common.interfaces.LifeCycleOwner
@@ -14,7 +15,6 @@ import com.hackernewsapplication.common.utils.showUserFeedback
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.base_activity_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
-import surveyapp.com.common.R
 
 /**
  * @Author rahulravindran
