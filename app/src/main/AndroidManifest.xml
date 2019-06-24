@@ -15,7 +15,8 @@
             android:name=".NewsApplication"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".NewsHomeActivity">
+        <activity android:name=".NewsHomeActivity"
+                  android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
