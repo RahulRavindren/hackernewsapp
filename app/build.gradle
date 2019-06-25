@@ -71,14 +71,22 @@ dependencies {
     implementation project.ext.androidx.constraintlayout
     implementation project.ext.androidx.navigation
     implementation project.ext.androidx.navigation_ui
+    implementation project.ext.test.espresso_idling
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
     testImplementation project.ext.test.junit
     testImplementation project.ext.test.mockito
     testImplementation project.ext.test.roboelectric
+    testImplementation project.ext.test.junit_ktx
+    testImplementation project.ext.test.espresso_idling
     debugImplementation project.ext.test.fragment_testing
+    androidTestImplementation project.ext.test.junit
     androidTestImplementation project.ext.test.runner
     androidTestImplementation project.ext.test.espresso_core
     androidTestImplementation project.ext.test.mockito
+    androidTestImplementation project.ext.test.runner
+    androidTestImplementation project.ext.test.rules
+    androidTestImplementation project.ext.test.espresso_idling
+    androidTestImplementation project.ext.test.junit_ktx
     testImplementation project.ext.test.runner
     testImplementation project.ext.test.rules
     testImplementation project.ext.test.espresso_core
