@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.RecyclerView
 import com.hackernewsapplication.android.NewsHomeActivity
 import com.hackernewsapplication.android.R
 import com.hackernewsapplication.android.entity.NewsEntity
 import com.hackernewsapplication.android.interfaces.ItemDataFetchCallback
+import com.hackernewsapplication.android.utils.SimpleIdlingResource
 import com.hackernewsapplication.android.view.listing.presenter.NewsListingPresenter
 import com.hackernewsapplication.android.view.listing.view.NewsLisitingFragmentView
 import com.hackernewsapplication.android.view.listing.viewholder.NewsListingItemViewHolder
@@ -27,6 +29,9 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
     private var presenter: NewsListingPresenter? = null
     private var compositeDisposable = CompositeDisposable()
     private val tagName = ListingFragment::class.java.simpleName
+
+    @VisibleForTesting
+    private var idlingResource: SimpleIdlingResource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,7 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
             showRefresh(true)
             presenter?.start()
             presenter?.subscribe(getListingObserver(), true)
+            idlingResource()?.setIdleState(false)
         }
 
     }
@@ -72,15 +78,22 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
         (activity as? NewsHomeActivity)?.getNavigation()?.navigate(R.id.news_detail_fragment, bundle)
     }
 
+
     override fun onfetchNewsForId(storyId: Int, viewHolder: RecyclerView.ViewHolder, viewHolderPos: Int) {
         Logger.debug(tagName, "storyId : $storyId , viewholder Pos : $viewHolderPos")
         compositeDisposable.add(presenter?.fetchStory(storyId)?.observeOn(AndroidSchedulers.mainThread())
             ?.onErrorResumeNext { Single.never() }?.subscribe { entity, error ->
-                adapter()?.updateItemAtPos(
-                    entity,
-                    viewHolderPos
-                )
+                adapter()?.updateItemAtPos(entity, viewHolderPos)
             }!!
         )
     }
+
+
+    override fun idlingResource(): SimpleIdlingResource? {
+        if (idlingResource == null) {
+            this.idlingResource = SimpleIdlingResource()
+        }
+        return idlingResource
+    }
+
 }

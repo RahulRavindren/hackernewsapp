@@ -82,6 +82,7 @@ dependencies {
     androidTestImplementation project.ext.test.junit
     androidTestImplementation project.ext.test.runner
     androidTestImplementation project.ext.test.espresso_core
+    androidTestImplementation project.ext.test.espresso_contrib
     androidTestImplementation project.ext.test.mockito
     androidTestImplementation project.ext.test.runner
     androidTestImplementation project.ext.test.rules

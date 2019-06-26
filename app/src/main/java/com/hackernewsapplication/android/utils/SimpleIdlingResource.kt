@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class SimpleIdlingResource : IdlingResource {
 
-    private val isIdleNow = AtomicBoolean(true)
+    private val isIdleNow = AtomicBoolean(false)
     private var resourceCallback: IdlingResource.ResourceCallback? = null
 
 
@@ -18,8 +18,9 @@ class SimpleIdlingResource : IdlingResource {
     }
 
     fun setIdleState(state: Boolean) {
+        if (state == isIdleNow.get()) return
         isIdleNow.set(state)
-        if (state && resourceCallback != null) {
+        if (state) {
             resourceCallback?.onTransitionToIdle()
         }
     }

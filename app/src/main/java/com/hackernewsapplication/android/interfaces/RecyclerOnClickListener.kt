@@ -8,4 +8,6 @@ interface RecyclerOnClickListener {
     fun onItemClick(position: Int, data: Any?, intent: Intent? = null) {}
 
     fun onItemClick(position: Int, data: Any?, intent: Bundle? = null) {}
+
+
 }
