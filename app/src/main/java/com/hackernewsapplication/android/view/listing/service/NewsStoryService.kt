@@ -6,7 +6,7 @@ import com.hackernewsapplication.network.RetrofitAdapter
 import com.nytimes.android.external.store3.base.Fetcher
 import io.reactivex.Single
 
-class NewsStoryService : Fetcher<NewsEntity, RepoIndentifier> {
+open class NewsStoryService : Fetcher<NewsEntity, RepoIndentifier> {
     var service: NewsFetchService? = null
 
     constructor() {

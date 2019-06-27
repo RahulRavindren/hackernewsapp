@@ -48,8 +48,9 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests.returnDefaultValues = false
     }
+
 
     signingConfigs {
         release {
@@ -59,7 +60,6 @@ android {
             keyPassword "store123"
         }
     }
-    sourceSets { main { res.srcDirs = ['src/main/res', 'src/test/res'] } }
 }
 
 dependencies {
@@ -89,6 +89,7 @@ dependencies {
     androidTestImplementation project.ext.test.mockito
     androidTestImplementation project.ext.test.runner
     androidTestImplementation project.ext.test.rules
+    androidTestImplementation project.ext.test.roboelectric
     androidTestImplementation project.ext.test.espresso_idling
     androidTestImplementation project.ext.test.junit_ktx
 

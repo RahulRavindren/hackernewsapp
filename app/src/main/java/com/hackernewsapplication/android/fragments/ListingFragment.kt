@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.idling.CountingIdlingResource
 import com.hackernewsapplication.android.NewsHomeActivity
 import com.hackernewsapplication.android.R
 import com.hackernewsapplication.android.entity.NewsEntity
 import com.hackernewsapplication.android.interfaces.ItemDataFetchCallback
-import com.hackernewsapplication.android.utils.SimpleIdlingResource
 import com.hackernewsapplication.android.view.listing.presenter.NewsListingPresenter
 import com.hackernewsapplication.android.view.listing.view.NewsLisitingFragmentView
 import com.hackernewsapplication.android.view.listing.viewholder.NewsListingItemViewHolder
@@ -31,7 +31,7 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
     private val tagName = ListingFragment::class.java.simpleName
 
     @VisibleForTesting
-    private var idlingResource: SimpleIdlingResource? = null
+    private var idlingResource: CountingIdlingResource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,7 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
             showRefresh(true)
             presenter?.start()
             presenter?.subscribe(getListingObserver(), true)
-            idlingResource()?.setIdleState(false)
+            idlingResource()?.increment()
         }
 
     }
@@ -89,9 +89,9 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
     }
 
 
-    override fun idlingResource(): SimpleIdlingResource? {
+    override fun idlingResource(): CountingIdlingResource? {
         if (idlingResource == null) {
-            this.idlingResource = SimpleIdlingResource()
+            this.idlingResource = CountingIdlingResource(C.LISTING_RESOURCE, true)
         }
         return idlingResource
     }

@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.idling.CountingIdlingResource
 import com.hackernewsapplication.android.R
 import com.hackernewsapplication.android.entity.NewsEntity
 import com.hackernewsapplication.android.interfaces.RecyclerOnClickListener
 import com.hackernewsapplication.android.interfaces.RecylerClickListenerBundleMock
-import com.hackernewsapplication.android.utils.SimpleIdlingResource
 import com.hackernewsapplication.common.C
 import com.hackernewsapplication.common.basecommons.BaseFragment
 import com.hackernewsapplication.common.basecommons.BaseViewHolder
@@ -80,7 +80,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
     }
 
     @VisibleForTesting
-    open fun idlingResource(): SimpleIdlingResource? = null
+    open fun idlingResource(): CountingIdlingResource? = null
 
     fun <T> getListingObserver(): SingleObserver<T> = base_listing?.adapter as SingleObserver<T>
 
@@ -105,6 +105,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
             ref.showRefresh(false)
             dataItems = t.toMutableList()
             notifyDataSetChanged()
+            ref.idlingResource()?.decrement()
         }
 
         override fun getItemId(position: Int): Long {

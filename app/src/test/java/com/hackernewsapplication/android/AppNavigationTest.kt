@@ -3,6 +3,7 @@ package com.hackernewsapplication.android
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.hackernewsapplication.android.fragments.DetailFragment
@@ -26,6 +27,8 @@ class AppNavigationTest {
     lateinit var supportFragmentManager: FragmentManager
     @Mock
     lateinit var container: FrameLayout
+    @Mock
+    lateinit var transaction: FragmentTransaction
 
     lateinit var appNavigation: AppNavigation
 
@@ -38,7 +41,7 @@ class AppNavigationTest {
 
     @Test
     fun `init case for app nav`() {
-        appNavigation.init(Bundle())
+        appNavigation.init(null)
         appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
             override fun onChangeDestination(
                 controller: NavController,
@@ -55,6 +58,7 @@ class AppNavigationTest {
 
     @Test
     fun `move to detail fragment`() {
+        appNavigation.init(null)
         appNavigation.navigate(R.id.news_detail_fragment, Bundle())
         appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
             override fun onChangeDestination(
@@ -72,6 +76,7 @@ class AppNavigationTest {
 
     @Test
     fun `move to detail fragment without bundle`() {
+        appNavigation.init(null)
         appNavigation.navigate(R.id.news_detail_fragment)
         appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
             override fun onChangeDestination(
