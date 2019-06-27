@@ -14,7 +14,6 @@ open class BasePresenter<T : BaseView> {
     private val TAG = BasePresenter::class.java.simpleName
     private var view: T? = null
 
-
     protected fun getView(): T? {
         return this.view
     }

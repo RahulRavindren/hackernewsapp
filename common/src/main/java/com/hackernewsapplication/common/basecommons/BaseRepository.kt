@@ -38,9 +38,9 @@ open class BaseRepository(val fetcher: Fetcher<*, BaseIdentifier>) : BaseResposi
         }
     }
 
-    fun <T> fetch(key: RepoIndentifier): Single<T> = store?.fetch(key) as Single<T>
+    fun <T> fetch(key: RepoIndentifier): Single<T> = store?.fetch(key) as? Single<T> ?: Single.never()
 
-    fun <T> fetchWithCache(key: RepoIndentifier): Single<T> = store?.get(key) as Single<T>
+    fun <T> fetchWithCache(key: RepoIndentifier): Single<T> = store?.get(key) as? Single<T> ?: Single.never()
 
     override fun destory() {
         disposable.dispose()

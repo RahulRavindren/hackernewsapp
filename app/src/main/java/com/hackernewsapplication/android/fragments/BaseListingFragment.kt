@@ -1,14 +1,18 @@
 package com.hackernewsapplication.android.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.idling.CountingIdlingResource
 import com.hackernewsapplication.android.R
 import com.hackernewsapplication.android.entity.NewsEntity
 import com.hackernewsapplication.android.interfaces.RecyclerOnClickListener
+import com.hackernewsapplication.android.interfaces.RecylerClickListenerBundleMock
 import com.hackernewsapplication.common.C
 import com.hackernewsapplication.common.basecommons.BaseFragment
 import com.hackernewsapplication.common.basecommons.BaseViewHolder
@@ -21,6 +25,9 @@ import kotlinx.android.synthetic.main.base_fragment_listing.*
 
 open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
     protected var isStateRestored: Boolean = false
+    @VisibleForTesting
+    var clickMock: RecylerClickListenerBundleMock? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,13 +71,16 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
     }
 
     fun showRefresh(state: Boolean) {
-        refresh_list.isRefreshing = state
+        refresh_list?.isRefreshing = state
     }
 
 
     fun setRefreshState(state: Boolean) {
-        refresh_list.isRefreshing = state
+        refresh_list?.isRefreshing = state
     }
+
+    @VisibleForTesting
+    open fun idlingResource(): CountingIdlingResource? = null
 
     fun <T> getListingObserver(): SingleObserver<T> = base_listing?.adapter as SingleObserver<T>
 
@@ -95,6 +105,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
             ref.showRefresh(false)
             dataItems = t.toMutableList()
             notifyDataSetChanged()
+            ref.idlingResource()?.decrement()
         }
 
         override fun getItemId(position: Int): Long {
@@ -125,10 +136,18 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
 
         override fun getItemCount(): Int = dataItems?.size ?: 0
 
+        @SuppressLint("VisibleForTests")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             holder.itemView.setOnClickListener {
                 recyclerOnClickListener.onItemClick(
                     position, dataItems[position], bundleOf(
+                        C.NEWS_ENTITY to dataItems[position]
+                    )
+                )
+
+                //for testing
+                ref.clickMock?.onClickPassBundle(
+                    bundleOf(
                         C.NEWS_ENTITY to dataItems[position]
                     )
                 )

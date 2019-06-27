@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.idling.CountingIdlingResource
 import com.hackernewsapplication.android.NewsHomeActivity
 import com.hackernewsapplication.android.R
 import com.hackernewsapplication.android.entity.NewsEntity
@@ -28,6 +30,9 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
     private var compositeDisposable = CompositeDisposable()
     private val tagName = ListingFragment::class.java.simpleName
 
+    @VisibleForTesting
+    private var idlingResource: CountingIdlingResource? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = NewsListingPresenter()
@@ -47,6 +52,7 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
             showRefresh(true)
             presenter?.start()
             presenter?.subscribe(getListingObserver(), true)
+            idlingResource()?.increment()
         }
 
     }
@@ -72,15 +78,22 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
         (activity as? NewsHomeActivity)?.getNavigation()?.navigate(R.id.news_detail_fragment, bundle)
     }
 
+
     override fun onfetchNewsForId(storyId: Int, viewHolder: RecyclerView.ViewHolder, viewHolderPos: Int) {
         Logger.debug(tagName, "storyId : $storyId , viewholder Pos : $viewHolderPos")
         compositeDisposable.add(presenter?.fetchStory(storyId)?.observeOn(AndroidSchedulers.mainThread())
             ?.onErrorResumeNext { Single.never() }?.subscribe { entity, error ->
-                adapter()?.updateItemAtPos(
-                    entity,
-                    viewHolderPos
-                )
+                adapter()?.updateItemAtPos(entity, viewHolderPos)
             }!!
         )
     }
+
+
+    override fun idlingResource(): CountingIdlingResource? {
+        if (idlingResource == null) {
+            this.idlingResource = CountingIdlingResource(C.LISTING_RESOURCE, true)
+        }
+        return idlingResource
+    }
+
 }

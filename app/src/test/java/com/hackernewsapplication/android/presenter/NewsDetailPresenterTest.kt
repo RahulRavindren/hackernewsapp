@@ -1,54 +1,44 @@
 package com.hackernewsapplication.android.presenter
 
-import android.content.Context
 import com.hackernewsapplication.android.view.detail.presenter.NewsDetailPresenter
 import com.hackernewsapplication.android.view.detail.view.NewsDetailView
-import com.hackernewsapplication.android.view.listing.service.NewsFetchService
-import com.hackernewsapplication.android.view.listing.service.NewsStoryService
+import com.hackernewsapplication.android.view.listing.repository.NewsStoryRepository
+import com.hackernewsapplication.common.utils.Logger
 import com.hackernewsapplication.common.utils.TestSchedulerProvider
-import com.hackernewsapplication.network.NetworkSDK
-import com.hackernewsapplication.network.RetrofitAdapter
+import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class NewsDetailPresenterTest {
     lateinit var presenter: NewsDetailPresenter
-    lateinit var server: MockWebServer
 
     @Mock
     lateinit var view: NewsDetailView
 
-    @Mock
-    lateinit var context: Context
+    lateinit var repository: NewsStoryRepository
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        server = MockWebServer()
-        server.start()
-
-        NetworkSDK.init(context)
         presenter = NewsDetailPresenter(TestSchedulerProvider(TestScheduler()))
         presenter.attachView(view)
-        val service = NewsStoryService(
-            RetrofitAdapter.Factory().getRestService(
-                NewsFetchService::class.java,
-                server.url("/"),
-                listOf()
-            )
-        )
-        presenter.initRepository(service)
+        repository = mock(NewsStoryRepository::class.java)
+        presenter.stubRepo(repository)
     }
 
     @Test
     fun `test if error view interface called`() {
+        Mockito.`when`(repository.fetchCommentsAndReplies(1024)).thenReturn(Single.error(RuntimeException()))
+        presenter.fetchComment(1024).subscribe { sucesss, error -> Logger.error(error) }
+        Mockito.verify(view).showErrorPage(true)
     }
 
 }

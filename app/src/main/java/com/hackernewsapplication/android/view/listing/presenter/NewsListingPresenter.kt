@@ -38,8 +38,6 @@ class NewsListingPresenter : BasePresenter<NewsLisitingFragmentView>() {
         return itemFetchRepository?.fetch(RepoIndentifier(C.NEWS_ENTITY, itemId)) ?: Single.never()
     }
 
-
-
     override fun stop() {
         super.stop()
     }

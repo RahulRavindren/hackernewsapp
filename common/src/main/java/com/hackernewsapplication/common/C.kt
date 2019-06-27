@@ -5,6 +5,7 @@ package com.hackernewsapplication.common
  */
 class C {
     companion object {
+        val LISTING_RESOURCE = "LISTING_RESOURCE"
         val NAV_STATE = "NAV_STATE"
         val LIFE_CYCLE = "LIFE_CYCLE"
         val EMPTY_STRING = ""

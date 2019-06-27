@@ -1,2 +1,2 @@
 ./gradlew clean
-./gradlew customJacocoTestReport
+./gradlew customJacocoTestReport --continue

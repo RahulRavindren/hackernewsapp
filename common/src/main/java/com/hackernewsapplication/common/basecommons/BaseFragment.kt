@@ -40,7 +40,7 @@ open class BaseFragment : Fragment(),
     override fun onPause() {
         Logger.debug(C.LIFE_CYCLE, "fragment pause")
         super.onPause()
-        lifecycleStreams.accept(LifeCycleEvent.START)
+        lifecycleStreams.accept(LifeCycleEvent.PAUSE)
 
     }
 

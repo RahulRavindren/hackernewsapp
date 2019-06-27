@@ -48,11 +48,12 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests.returnDefaultValues = false
     }
 
+
     signingConfigs {
-        release  {
+        release {
             storeFile file("sample.jks")
             storePassword "sample123"
             keyAlias "store123"
@@ -65,20 +66,35 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common')
     implementation project(':network')
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project.ext.androidx.appcompat
     implementation project.ext.androidx.core_ktx
     implementation project.ext.androidx.constraintlayout
+    implementation project.ext.androidx.navigation
+    implementation project.ext.androidx.navigation_ui
+    implementation project.ext.test.espresso_idling
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
     testImplementation project.ext.test.junit
     testImplementation project.ext.test.mockito
     testImplementation project.ext.test.roboelectric
+    testImplementation project.ext.test.junit_ktx
+    testImplementation project.ext.test.espresso_idling
+    testImplementation project.ext.test.power_mock
+    testImplementation project.ext.test.power_mock_api
+    debugImplementation project.ext.test.fragment_testing
+    androidTestImplementation project.ext.test.junit
     androidTestImplementation project.ext.test.runner
     androidTestImplementation project.ext.test.espresso_core
+    androidTestImplementation project.ext.test.espresso_contrib
     androidTestImplementation project.ext.test.mockito
+    androidTestImplementation project.ext.test.runner
+    androidTestImplementation project.ext.test.rules
+    androidTestImplementation project.ext.test.roboelectric
+    androidTestImplementation project.ext.test.espresso_idling
+    androidTestImplementation project.ext.test.junit_ktx
+
     testImplementation project.ext.test.runner
     testImplementation project.ext.test.rules
     testImplementation project.ext.test.espresso_core
-    implementation project.ext.androidx.navigation
-    implementation project.ext.androidx.navigation_ui
+
 }
