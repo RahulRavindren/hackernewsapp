@@ -105,7 +105,6 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
             ref.showRefresh(false)
             dataItems = t.toMutableList()
             notifyDataSetChanged()
-            ref.idlingResource()?.decrement()
         }
 
         override fun getItemId(position: Int): Long {

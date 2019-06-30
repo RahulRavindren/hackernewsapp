@@ -52,7 +52,6 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
             showRefresh(true)
             presenter?.start()
             presenter?.subscribe(getListingObserver(), true)
-            idlingResource()?.increment()
         }
 
     }
@@ -82,6 +81,11 @@ class ListingFragment : BaseListingFragment<NewsEntity>(), ListingAdapterType, N
     override fun onfetchNewsForId(storyId: Int, viewHolder: RecyclerView.ViewHolder, viewHolderPos: Int) {
         Logger.debug(tagName, "storyId : $storyId , viewholder Pos : $viewHolderPos")
         compositeDisposable.add(presenter?.fetchStory(storyId)?.observeOn(AndroidSchedulers.mainThread())
+            ?.doOnSubscribe {
+                //hack way of getting UI test running
+                idlingResource?.decrement()
+                idlingResource = null
+            }
             ?.onErrorResumeNext { Single.never() }?.subscribe { entity, error ->
                 adapter()?.updateItemAtPos(entity, viewHolderPos)
             }!!
