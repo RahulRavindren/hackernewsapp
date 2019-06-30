@@ -9,15 +9,14 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.runner.AndroidJUnit4
 import com.hackernewsapplication.android.R
 import com.hackernewsapplication.android.view.listing.viewholder.NewsListingItemViewHolder
-import kotlinx.android.synthetic.main.base_fragment_listing.*
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,23 +40,6 @@ class ListingFragmentTest {
                 IdlingRegistry.getInstance().register(it.idlingResource())
             }
             onView(withId(R.id.refresh_list)).check(matches(isRefreshing()))
-
-        }
-
-    }
-
-    @Test
-    fun list_generation_in_recyclerview() {
-        with(FragmentScenario.launchInContainer(ListingFragment::class.java)) {
-            onFragment {
-                IdlingRegistry.getInstance().register(it.idlingResource())
-            }
-
-            onFragment {
-                Assert.assertTrue(it.adapter()?.itemCount ?: -1 > 0)
-                Assert.assertTrue(it.base_listing.layoutManager?.itemCount ?: -1 > 0)
-            }
-
         }
 
     }
@@ -67,11 +49,11 @@ class ListingFragmentTest {
         with(FragmentScenario.launchInContainer(ListingFragment::class.java)) {
             onFragment {
                 IdlingRegistry.getInstance().register(it.idlingResource())
+                it.idlingResource()?.increment()
             }
-
+            onView(withId(R.id.base_listing)).check(matches(isDisplayed()));
             onView(withId(R.id.base_listing))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<NewsListingItemViewHolder>(0, click()))
-
         }
 
     }
