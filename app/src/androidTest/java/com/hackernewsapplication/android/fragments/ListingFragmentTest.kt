@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.runner.AndroidJUnit4
+import com.hackernewsapplication.AbsListViewMatcher
 import com.hackernewsapplication.android.R
 import com.hackernewsapplication.android.view.listing.viewholder.NewsListingItemViewHolder
 import org.hamcrest.Description
@@ -56,6 +57,17 @@ class ListingFragmentTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition<NewsListingItemViewHolder>(0, click()))
         }
 
+    }
+
+    @Test
+    fun list_has_items_on_view() {
+        with(FragmentScenario.launchInContainer(ListingFragment::class.java)) {
+            onFragment {
+                IdlingRegistry.getInstance().register(it.idlingResource())
+                it.idlingResource()?.increment()
+            }
+            onView(withId(R.id.base_listing)).check(matches(AbsListViewMatcher()))
+        }
     }
 
     @After
