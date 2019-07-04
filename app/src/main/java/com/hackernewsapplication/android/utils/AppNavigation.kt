@@ -3,6 +3,7 @@ package com.hackernewsapplication.android.utils
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.annotation.IdRes
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -23,6 +24,8 @@ class AppNavigation(private val supportFragmentManager: FragmentManager, private
 
     fun getCurrentVisibleFragment(): Fragment? = hostFragment.childFragmentManager.primaryNavigationFragment
 
+    @VisibleForTesting
+    fun getHostFragment(): NavHostFragment = hostFragment
 
     fun navigate(@IdRes navId: Int) {
         hostFragment.navController.navigate(navId)
@@ -39,7 +42,6 @@ class AppNavigation(private val supportFragmentManager: FragmentManager, private
                 .replace(container.id, hostFragment)
                 .setPrimaryNavigationFragment(hostFragment)
                 .commitNow()
-            hostFragment.navController.addOnDestinationChangedListener(destinationChangeListener)
         } else {
             hostFragment.navController.restoreState(bundle)
         }
@@ -55,6 +57,7 @@ class AppNavigation(private val supportFragmentManager: FragmentManager, private
     fun navController(): NavController? = navController
 
     fun setNavigationChangeListener(listener: NavigationChangeListener) {
+        hostFragment.navController.addOnDestinationChangedListener(destinationChangeListener)
         this.listener = listener
     }
 

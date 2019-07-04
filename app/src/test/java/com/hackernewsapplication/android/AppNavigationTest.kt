@@ -5,6 +5,9 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.hackernewsapplication.android.fragments.DetailFragment
@@ -32,6 +35,7 @@ class AppNavigationTest {
     @Mock
     lateinit var transaction: FragmentTransaction
 
+
     lateinit var appNavigation: AppNavigation
 
     @Before
@@ -46,55 +50,77 @@ class AppNavigationTest {
 
     @Test
     fun `init case for app nav`() {
-        appNavigation.init(Bundle())
-        appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
-            override fun onChangeDestination(
-                controller: NavController,
-                destination: NavDestination,
-                arguments: Bundle?
-            ) {
-                Assert.assertThat(
-                    appNavigation.getCurrentVisibleFragment(),
-                    CoreMatchers.instanceOf(ListingFragment::class.java)
-                )
+        appNavigation.init(null)
+        appNavigation.getHostFragment().lifecycle.addObserver(object : LifecycleObserver {
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            fun onResume() {
+                //executing this event on fragment resume. Navcontroller created  after oncreate()
+                appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
+                    override fun onChangeDestination(
+                        controller: NavController,
+                        destination: NavDestination,
+                        arguments: Bundle?
+                    ) {
+                        Assert.assertThat(
+                            appNavigation.getCurrentVisibleFragment(),
+                            CoreMatchers.instanceOf(ListingFragment::class.java)
+                        )
+                    }
+                })
             }
         })
+
     }
 
     @Test
     fun `move to detail fragment`() {
-        appNavigation.init(Bundle())
-        appNavigation.navigate(R.id.news_detail_fragment, Bundle())
-        appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
-            override fun onChangeDestination(
-                controller: NavController,
-                destination: NavDestination,
-                arguments: Bundle?
-            ) {
-                Assert.assertThat(
-                    appNavigation.getCurrentVisibleFragment(),
-                    CoreMatchers.instanceOf(DetailFragment::class.java)
-                )
+        appNavigation.init(null)
+        appNavigation.getHostFragment().lifecycle.addObserver(object : LifecycleObserver {
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            fun onResume() {
+                //executing this event on fragment resume. Navcontroller created  after oncreate()
+                appNavigation.navigate(R.id.news_detail_fragment, Bundle())
+                appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
+                    override fun onChangeDestination(
+                        controller: NavController,
+                        destination: NavDestination,
+                        arguments: Bundle?
+                    ) {
+                        Assert.assertThat(
+                            appNavigation.getCurrentVisibleFragment(),
+                            CoreMatchers.instanceOf(DetailFragment::class.java)
+                        )
+                    }
+                })
             }
         })
+
     }
 
     @Test
     fun `move to detail fragment without bundle`() {
         appNavigation.init(null)
-        appNavigation.navigate(R.id.news_detail_fragment)
-        appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
-            override fun onChangeDestination(
-                controller: NavController,
-                destination: NavDestination,
-                arguments: Bundle?
-            ) {
-                Assert.assertThat(
-                    appNavigation.getCurrentVisibleFragment(),
-                    CoreMatchers.instanceOf(DetailFragment::class.java)
-                )
+        appNavigation.getHostFragment().lifecycle.addObserver(object : LifecycleObserver {
+            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            fun onResume() {
+                appNavigation.navigate(R.id.news_detail_fragment)
+                appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
+                    override fun onChangeDestination(
+                        controller: NavController,
+                        destination: NavDestination,
+                        arguments: Bundle?
+                    ) {
+                        Assert.assertThat(
+                            appNavigation.getCurrentVisibleFragment(),
+                            CoreMatchers.instanceOf(DetailFragment::class.java)
+                        )
+                    }
+                })
             }
         })
+
     }
 
 
