@@ -66,9 +66,7 @@ class Logger {
         throw AssertionError("no instances")
     }
 
-    class ApplicationDebugTree : Timber.DebugTree() {
-
-    }
+    class ApplicationDebugTree : Timber.DebugTree()
 
     class CrashReportingLocal : Timber.Tree() {
         override fun isLoggable(priority: Int): Boolean {

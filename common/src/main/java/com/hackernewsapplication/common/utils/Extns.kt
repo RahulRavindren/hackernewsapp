@@ -83,11 +83,11 @@ fun bundleOf(vararg pairs: Pair<String, Any?>) = Bundle(pairs.size).apply {
             is Serializable -> putSerializable(key, value)
 
             else -> {
-                if (Build.VERSION.SDK_INT >= 18 && value is Binder) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && value is Binder) {
                     putBinder(key, value)
-                } else if (Build.VERSION.SDK_INT >= 21 && value is Size) {
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && value is Size) {
                     putSize(key, value)
-                } else if (Build.VERSION.SDK_INT >= 21 && value is SizeF) {
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && value is SizeF) {
                     putSizeF(key, value)
                 } else {
                     val valueType = value.javaClass.canonicalName
@@ -136,7 +136,7 @@ inline fun <T, reified R> List<T>.mapToTypedArray(transform: (T) -> R): Array<R>
 }
 
 fun View.showUserFeedback(message: String) {
-    if (Build.VERSION.SDK_INT > 21) {
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
         Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
     } else {
         Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show()

@@ -47,6 +47,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
     }
 
+    configurations {
+        androidTestImplementation.exclude module: 'guava'
+        androidTestImplementation.exclude module: 'error_prone_annotations'
+        androidTestImplementation.exclude module: 'checker-qual'
+    }
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
@@ -95,4 +101,11 @@ dependencies {
     testImplementation project.ext.test.rules
     testImplementation project.ext.test.espresso_core
 
+}
+
+
+tasks.whenTaskAdded { task ->
+    if(task.name.contains("detekt")) {
+        task.enabled = false
+    }
 }

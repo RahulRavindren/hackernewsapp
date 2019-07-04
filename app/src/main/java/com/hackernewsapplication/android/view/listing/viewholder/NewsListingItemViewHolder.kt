@@ -31,13 +31,6 @@ class NewsListingItemViewHolder(val view: View, val callback: ItemDataFetchCallb
         }
     }
 
-    override fun onAttach() {
-
-    }
-
-    override fun onDetach() {
-
-    }
 
     override fun onDestroy() {
         entity = null

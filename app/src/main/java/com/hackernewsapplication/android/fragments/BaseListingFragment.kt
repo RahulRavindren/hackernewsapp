@@ -53,7 +53,7 @@ open class BaseListingFragment<T> : BaseFragment(), RecyclerOnClickListener {
 
     private fun initList() {
         base_listing.let {
-            it.layoutManager = LinearLayoutManager(it.context, LinearLayoutManager.VERTICAL, false)
+            it.layoutManager = LinearLayoutManager(it.context, RecyclerView.VERTICAL, false)
             it.adapter = ListingAdapter(this, this, getAdapterType())
         }
 

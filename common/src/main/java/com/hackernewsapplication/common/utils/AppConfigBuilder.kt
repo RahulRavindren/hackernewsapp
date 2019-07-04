@@ -50,7 +50,7 @@ class AppConfigBuilder {
     }
 
 
-    class Builder() {
+    class Builder {
         lateinit var env: String
         lateinit var applicationId: String
         lateinit var applicationVersion: String

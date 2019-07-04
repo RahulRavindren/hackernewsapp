@@ -1,7 +1,7 @@
 apply plugin: "io.gitlab.arturbosch.detekt"
 
 detekt {
-    version = "1.0.0.-RC14"
+    version = "1.0.0.-RC16"
     input = files("$projectDir")
     filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
     parallel = true
