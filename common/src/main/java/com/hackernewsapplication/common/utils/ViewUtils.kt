@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 object ViewUtils {
 
     fun showToast(view: View, message: String, duration: Int = 0) {
-        if (Build.VERSION.SDK_INT > 21) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             Snackbar.make(view, message, duration).show()
         } else {
             Toast.makeText(view.context, message, duration)
@@ -19,4 +19,3 @@ object ViewUtils {
     }
 
 }
-

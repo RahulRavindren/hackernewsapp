@@ -102,3 +102,10 @@ dependencies {
     testImplementation project.ext.test.espresso_core
 
 }
+
+
+tasks.whenTaskAdded { task ->
+    if(task.name.contains("detekt")) {
+        task.enabled = false
+    }
+}
