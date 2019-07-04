@@ -47,6 +47,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
     }
 
+    configurations {
+        androidTestImplementation.exclude module: 'guava'
+        androidTestImplementation.exclude module: 'error_prone_annotations'
+        androidTestImplementation.exclude module: 'checker-qual'
+    }
+
     testOptions {
         unitTests.returnDefaultValues = true
     }

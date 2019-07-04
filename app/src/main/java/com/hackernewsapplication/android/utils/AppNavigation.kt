@@ -55,7 +55,7 @@ class AppNavigation(private val supportFragmentManager: FragmentManager, private
     fun navController(): NavController? = navController
 
     fun setNavigationChangeListener(listener: NavigationChangeListener) {
-
+        this.listener = listener
     }
 
     interface NavigationChangeListener {

@@ -2,6 +2,7 @@ package com.hackernewsapplication.android
 
 import android.os.Bundle
 import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
@@ -15,6 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -36,12 +38,15 @@ class AppNavigationTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         appNavigation = AppNavigation(supportFragmentManager, container)
-
+        Mockito.`when`(supportFragmentManager.beginTransaction()).thenReturn(transaction)
+        Mockito.`when`(transaction.replace(Mockito.anyInt(), Mockito.any(Fragment::class.java))).thenReturn(transaction)
+        Mockito.`when`(transaction.setPrimaryNavigationFragment(Mockito.any(Fragment::class.java)))
+            .thenReturn(transaction)
     }
 
     @Test
     fun `init case for app nav`() {
-        appNavigation.init(null)
+        appNavigation.init(Bundle())
         appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
             override fun onChangeDestination(
                 controller: NavController,
@@ -58,7 +63,7 @@ class AppNavigationTest {
 
     @Test
     fun `move to detail fragment`() {
-        appNavigation.init(null)
+        appNavigation.init(Bundle())
         appNavigation.navigate(R.id.news_detail_fragment, Bundle())
         appNavigation.setNavigationChangeListener(object : AppNavigation.NavigationChangeListener {
             override fun onChangeDestination(

@@ -23,6 +23,12 @@ android {
         }
     }
 
+    configurations {
+        androidTestImplementation.exclude module: 'guava'
+        androidTestImplementation.exclude module: 'error_prone_annotations'
+        androidTestImplementation.exclude module: 'checker-qual'
+    }
+
     buildTypes {
         release {
             minifyEnabled false

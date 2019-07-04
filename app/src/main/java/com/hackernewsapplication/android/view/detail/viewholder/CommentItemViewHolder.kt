@@ -45,13 +45,6 @@ open class CommentItemViewHolder(
         }
     }
 
-    override fun onAttach() {
-
-    }
-
-    override fun onDetach() {
-    }
-
     override fun onDestroy() {
         nestedCommentView?.text = C.EMPTY_STRING
         top_level_comment?.text = C.EMPTY_STRING

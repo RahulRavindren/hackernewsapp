@@ -18,7 +18,6 @@ import com.hackernewsapplication.android.view.listing.viewholder.NewsListingItem
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -28,11 +27,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class ListingFragmentTest {
     var scenario: FragmentScenario<ListingFragment>? = null
-
-    @Before
-    fun setUp() {
-
-    }
 
     @Test
     fun loading_indicator_confirmation() {
