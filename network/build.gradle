@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply from: '../dependencies/dependencies.gradle'
 apply from: "$rootProject.projectDir/dependencies/quality.gradle"
-apply from: "$rootProject.projectDir/dependencies/detekt.gradle"
 
 
 android {

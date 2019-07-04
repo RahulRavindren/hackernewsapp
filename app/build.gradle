@@ -8,7 +8,6 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 apply from: "$rootProject.projectDir/dependencies/dependencies.gradle"
 apply from: "$rootProject.projectDir/dependencies/quality.gradle"
-apply from: "$rootProject.projectDir/dependencies/detekt.gradle"
 
 
 android {
@@ -101,11 +100,4 @@ dependencies {
     testImplementation project.ext.test.rules
     testImplementation project.ext.test.espresso_core
 
-}
-
-
-tasks.whenTaskAdded { task ->
-    if(task.name.contains("detekt")) {
-        task.enabled = false
-    }
 }
