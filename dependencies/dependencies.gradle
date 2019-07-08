@@ -2,6 +2,7 @@ ext{
     csv = 28
     msv = 16
     msv_debug = 21
+    lifecycle_version  = "2.0.0"
 
     androidx = [
         "appcompat" : "androidx.appcompat:appcompat:1.0.2",
@@ -11,7 +12,11 @@ ext{
         "design"           : "com.google.android.material:material:1.0.0-rc01",
         "navigation": "androidx.navigation:navigation-fragment-ktx:2.1.0-alpha02",
         "navigation_ui": "androidx.navigation:navigation-ui-ktx:2.1.0-alpha02",
-        "fragment": "androidx.fragment:fragment-ktx:1.1.0-alpha06"
+        "fragment": "androidx.fragment:fragment-ktx:1.1.0-alpha06",
+        "lifecycle_extensions": "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
+        "lifecycle_j8": "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version",
+        "lifecycle_reactive": "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+
     ]
 
     network = [
@@ -59,7 +64,7 @@ ext{
         "roboelectric":  "org.robolectric:robolectric:4.3",
         "power_mock": "org.powermock:powermock-module-junit4:2.0.2",
         "power_mock_api": "org.powermock:powermock-api-mockito2:2.0.2",
-        "fragment_testing": "androidx.fragment:fragment-testing:1.1.0-alpha07"
-
+        "fragment_testing": "androidx.fragment:fragment-testing:1.1.0-alpha07",
+        "lifecycle_test": "androidx.arch.core:core-testing:$lifecycle_version"
     ]
 }

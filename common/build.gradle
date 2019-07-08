@@ -67,14 +67,17 @@ dependencies {
     api project.ext.libs.store_core
     api project.ext.libs.store_middleware
     api project.ext.libs.store_core_kotlin
+    api project.ext.androidx.lifecycle_extensions
+    api project.ext.androidx.lifecycle_j8
+    api project.ext.androidx.lifecycle_reactive
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
     testImplementation project.ext.test.junit
     testImplementation project.ext.test.mockito
     testImplementation project.ext.test.roboelectric
+    testImplementation project.ext.test.lifecycle_test
     androidTestImplementation project.ext.test.runner
     androidTestImplementation project.ext.test.espresso_core
     androidTestImplementation project.ext.test.roboelectric
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
 
 }
