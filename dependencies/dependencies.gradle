@@ -15,7 +15,8 @@ ext{
         "fragment": "androidx.fragment:fragment-ktx:1.1.0-alpha06",
         "lifecycle_extensions": "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
         "lifecycle_j8": "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version",
-        "lifecycle_reactive": "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+        "lifecycle": "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
+        "lifecycle_compiler" : "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     ]
 

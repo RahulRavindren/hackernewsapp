@@ -2,6 +2,8 @@ package com.hackernewsapplication.common.viewmodel
 
 import com.hackernewsapplication.common.basecommons.BaseRepository
 import com.hackernewsapplication.common.basecommons.BaseViewModel
+import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
 
 class ViewModelFactory private constructor(private val repository: BaseRepository) {
     object INSTANCE {
@@ -17,20 +19,19 @@ class ViewModelFactory private constructor(private val repository: BaseRepositor
         fun getInstance(repository: BaseRepository): ViewModelFactory = INSTANCE.instance(repository)
     }
 
-    inline fun <reified T> onCreate(): T? {
-        if (T::class.annotations.isNotEmpty()) {
-            val viewModelAnnotation = T::class.annotations[0] as ViewModel<*>
+    inline fun <T : BaseViewModel> onCreate(annotatedClass: KClass<*>): T {
+        if (annotatedClass.annotations.isNotEmpty()) {
+            val viewModelAnnotation = annotatedClass.annotations[0] as ViewModel<*>
+            val viewModelInstance = viewModelAnnotation.kClass.createInstance()
             try {
                 INSTANCE.repository?.let {
-                    (viewModelAnnotation.kClass.objectInstance as BaseViewModel).setRepo(it)
+                    (viewModelInstance as BaseViewModel).setRepo(it)
                 }
 
             } catch (e: ClassCastException) {
                 throw ClassCastException("viewModel does not inherit BaseViewModel")
             }
-            return viewModelAnnotation::kClass.get().objectInstance as T
-            TODO("inject repository into the viewmodel")
-
+            return viewModelInstance as T
         } else {
             throw IllegalArgumentException("no viewmodel annotations for class")
         }
